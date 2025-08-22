@@ -1,0 +1,33 @@
+### when running the server you can test using REST Client for Visual Studio Code
+### in this case we are testing the index / 
+
+### LOCAL USER
+GET http://localhost:8787/users/v1
+
+
+### LIVE USER
+GET https://notiftool-server.mochi-project.workers.dev/users
+
+
+
+### AUTH
+GET http://localhost:8787/auth/v1/auth
+
+### AUTH /auth/v1
+GET http://localhost:8787/auth/v1/session
+
+
+### AUTH /auth/v1
+GET http://localhost:8787/partyusers/NIgWNMNVlmEXDxQhd2BYuMhJPMvcpS2C
+
+
+### CREATE ORGANIZATION
+POST http://localhost:8787/organizations HTTP/1.1
+content-type: application/json
+
+{   
+    "party_uuid": "ad5a0626-9b8a-460b-9bbd-960cf505e2ed",
+    "name": "JustXYZ1",
+    "status": "active",
+    "author_party_uuid": "ad5a0626-9b8a-460b-9bbd-960cf505e2ed"
+}

@@ -6,10 +6,10 @@ import {
   verification,
 } from "../better-auth/db-schema/tbl-ba";
 
-import { tbl_user } from "./tbl-user";
 import { tbl_party } from "./tbl-party";
-import { tbl_party_user } from "./tbl-party-user";
+import { tbl_user } from "./tbl-user";
 import { tbl_organization } from "./tbl-organization";
+import { tbl_form } from "./tbl-form";
 
 export const DBTables = {
   user,
@@ -18,6 +18,6 @@ export const DBTables = {
   verification,
   tbl_user,
   tbl_party,
-  tbl_party_user,
   tbl_organization,
+  tbl_form,
 };

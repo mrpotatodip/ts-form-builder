@@ -7,8 +7,8 @@ export type { User } from "./user";
 export type { Session } from "./session";
 
 // PARTY USER
-export * from "./tbl-party-user";
-export type * from "./tbl-party-user";
+export * from "./tbl-user";
+export type * from "./tbl-user";
 
 // ORGANIZATION
 export * from "./tbl-organization";

@@ -1,7 +1,14 @@
-import { pgTable, serial, uuid, text } from "drizzle-orm/pg-core";
+import { pgTable, serial, uuid, text, timestamp } from "drizzle-orm/pg-core";
+
+import { tbl_party } from "./tbl-party";
 
 export const tbl_user = pgTable("tbl_user", {
-  id: serial("id").notNull().unique(),
-  uuid: uuid("uuid1").defaultRandom().primaryKey(),
-  name: text("name").default("").notNull(),
+  id: serial("id").primaryKey(),
+  party_uuid: uuid("party_uuid")
+    .references(() => tbl_party.uuid)
+    .notNull(),
+  user_id: text("user_id").notNull(),
+  stripe_customer_id: text("stripe_customer_id").default("").notNull(),
+  email: text("email").default("").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
 });

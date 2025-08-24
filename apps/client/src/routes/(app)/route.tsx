@@ -1,8 +1,7 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 
-import { useEnsureQueryData_All as useEnsureQueryData_All_Users } from "~/services/hooks/use-users";
-import { useEnsureQueryData_Detail as useEnsureQueryData_All_PartyUsers } from "~/services/hooks/use-party-users";
-import { useEnsureQueryData_All as useEnsureQueryData_All_Organizations } from "~/services/hooks/use-organizations";
+import { useEnsureQueryData_Detail as useEQD_All_Users } from "~/services/hooks/use-users";
+import { useEnsureQueryData_All as useEQD_All_Organizations } from "~/services/hooks/use-organizations";
 
 export const Route = createFileRoute("/(app)")({
   beforeLoad: async ({ context }) => {
@@ -10,34 +9,29 @@ export const Route = createFileRoute("/(app)")({
     const { authState } = allOtherContext;
 
     // NOT AUTH USER
-    // if (!authState) return redirect({ to: "/login" });
-    // const { userId } = authState!;
+    if (!authState) return redirect({ to: "/login" });
+    const { userId } = authState!;
 
-    const { data: partyUserState } = await useEnsureQueryData_All_PartyUsers(
-      queryClient,
-      { userId: "" }
-    );
+    const { data: userState } = await useEQD_All_Users(queryClient, { userId });
 
-    if (!partyUserState.data) {
-      return {
-        ...allOtherContext,
-      };
-    }
+    // if (!partyUserState.data) {
+    //   return {
+    //     ...allOtherContext,
+    //   };
+    // }
 
-    const [{ party_uuid: author_party_uuid }] = partyUserState.data;
+    // const [{ party_uuid: author_party_uuid }] = partyUserState.data;
 
-    const [usersState, organizationsState] = await Promise.all([
-      useEnsureQueryData_All_Organizations(queryClient, { author_party_uuid }),
-      useEnsureQueryData_All_Users(queryClient),
-    ]);
+    // const [organizationsState] = await Promise.all([
+    //   useEnsureQueryData_All_Organizations(queryClient, { author_party_uuid }),
+    // ]);
 
-    return {
-      ...allOtherContext,
-      partyUserState: partyUserState.data,
-      organizationsState: organizationsState.data,
-      usersState: usersState.data,
-      authState,
-    };
+    // return {
+    //   ...allOtherContext,
+    //   partyUserState: partyUserState.data,
+    //   organizationsState: organizationsState.data,
+    //   authState,
+    // };
   },
   component: RouteComponent,
 });

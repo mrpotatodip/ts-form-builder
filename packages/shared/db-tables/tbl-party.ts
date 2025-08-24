@@ -12,7 +12,7 @@ export const PartyTypeOptions = [
 export type PartyTypOptions = (typeof PartyTypeOptions)[number];
 const DefaultPartyType: PartyTypOptions = "user";
 
-export const tbl_party = pgTable("tbl_hodl_party", {
+export const tbl_party = pgTable("tbl_party", {
   id: serial("id").notNull().unique(),
   uuid: uuid("uuid1").defaultRandom().primaryKey(),
   type: text("type")

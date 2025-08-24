@@ -51,21 +51,35 @@ const utilPrettify = async (output: string) => {
 const utilFieldToZod = (field: Builder) => {
   let zodType = "";
 
+  const errStr = <Terror>(error: Terror) => {
+    const str = error ? `{"error" : "${error}"}` : "";
+    return str;
+  };
+
+  const minmaxStr = <Tminmax, Terror>(minmax: Tminmax, error: Terror) => {
+    let str = "";
+    str += minmax ? `.min(${minmax} ${error ? `, ${errStr(error)}` : ""})` : "";
+    return str;
+  };
+
   switch (field.type) {
     case "text":
     case "password":
     case "textarea":
-      zodType = "z.string()";
-      if (field.minLength) zodType += `.min(${field.minLength})`;
-      if (field.maxLength) zodType += `.max(${field.maxLength})`;
+      zodType = `z.string(${errStr(field.requiredError)})`;
+      zodType += minmaxStr(field.minLength, field.minLengthError);
+      zodType += minmaxStr(field.maxLength, field.maxLengthError);
       break;
     case "email":
-      zodType = "z.string().email()";
+      zodType = `z.string(${errStr(field.requiredError)})`;
+      zodType += minmaxStr(field.minLength, field.minLengthError);
+      zodType += minmaxStr(field.maxLength, field.maxLengthError);
+      zodType += ".email()";
       break;
     case "number":
       zodType = "z.number()";
-      if (field.min !== undefined) zodType += `.min(${field.min})`;
-      if (field.max !== undefined) zodType += `.max(${field.max})`;
+      zodType += minmaxStr(field.min, field.minError);
+      zodType += minmaxStr(field.max, field.maxError);
       break;
     case "select":
       if (field.options && field.options.length > 0) {
@@ -73,14 +87,14 @@ const utilFieldToZod = (field: Builder) => {
         const stringValues = enumValues.map((item) => `"${item}"`).join(",");
         zodType = `z.enum([${stringValues}])`;
       } else {
-        zodType = "z.string()";
+        zodType = `z.string(${errStr(field.requiredError)})`;
       }
       break;
     case "checkbox":
       zodType = "z.boolean()";
       break;
     default:
-      zodType = "z.string()";
+      zodType = `z.string(${errStr(field.requiredError)})`;
   }
 
   if (!field.required && field.type !== "checkbox") {

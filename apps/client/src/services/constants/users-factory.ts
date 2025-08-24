@@ -1,10 +1,12 @@
+import type { UserParam, UserQuery } from "shared";
+
 export const queryKeyFactory = {
-  all: () => ["users"],
-  lists: () => [...queryKeyFactory.all(), "list"],
-  list: (filter: Record<string, any>) => [
-    ...queryKeyFactory.lists(),
-    { filter },
+  all: (param: UserParam) => ["users", param],
+  lists: (param: UserParam) => [...queryKeyFactory.all(param), "list"],
+  list: (param: UserParam, query: UserQuery) => [
+    ...queryKeyFactory.lists(param),
+    query,
   ],
-  details: () => [...queryKeyFactory.all(), "detail"],
-  detail: (id: string | number) => [...queryKeyFactory.details(), { id }],
+  details: (param: UserParam) => [...queryKeyFactory.all(param), "detail"],
+  detail: (param: UserParam) => [...queryKeyFactory.details(param), param],
 } as const;

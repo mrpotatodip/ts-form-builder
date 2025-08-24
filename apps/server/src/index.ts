@@ -2,8 +2,8 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 
 import auth from "./auth";
+import ba_users from "./ ba-users";
 import users from "./users";
-import partyusers from "./party-users";
 import organizations from "./organizations";
 
 const app = new Hono<{ Bindings: CloudflareBindings }>();
@@ -21,8 +21,8 @@ app.use(
 app.route("/auth/v1", auth);
 
 // RPCs
+app.route("/", ba_users);
 app.route("/", users);
-app.route("/", partyusers);
 app.route("/", organizations);
 
 export default app;

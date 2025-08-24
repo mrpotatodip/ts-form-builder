@@ -1,8 +1,20 @@
-import { DBNeonConnect } from "../..";
+import { eq } from "drizzle-orm";
 
-import { user } from "../../better-auth/db-schema";
+import type { DBNeonConnect } from "../..";
 
-export const all = async (db: DBNeonConnect) => {
-  const data = await db.select().from(user).limit(2);
+import { tbl_user } from "../../db-tables/tbl-user";
+import type { UserParam, UserQuery } from "../../schemas-types";
+
+export const all = async (
+  db: DBNeonConnect,
+  param: UserParam,
+  query: UserQuery
+) => {
+  const { userId } = param;
+  const data = await db
+    .select()
+    .from(tbl_user)
+    .where(eq(tbl_user.user_id, userId))
+    .limit(2);
   return data;
 };

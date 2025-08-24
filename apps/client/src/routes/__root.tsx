@@ -15,26 +15,24 @@ import { NotFound } from "~/components/NotFound";
 import appCss from "~/styles/app.css?url";
 import { seo } from "~/utils/seo";
 
-// import { PosthogProvider } from "~/services/providers/posthog-provider";
+import { PosthogProvider } from "~/services/providers/posthog-provider";
 import {
   ThemeProvider,
   themeStorageKey,
 } from "~/services/providers/theme-provider";
-import { queryOptionFactory as usersQOF } from "~/services/query-options/users-query-options";
-import { fetchQuery_Details } from "~/services/hooks/use-users";
+import { fetchQuery_Details } from "~/services/hooks/use-ba-users";
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient;
 }>()({
   beforeLoad: async ({ context }) => {
     const { queryClient } = context;
-    // const authState = await fetchQuery_Details(queryClient);
+    const authState = await fetchQuery_Details(queryClient);
 
     return {
-      authState: [],
-      partyUserState: [],
+      authState: authState,
+      userState: [],
       organizationsState: [],
-      usersState: [],
     };
   },
   head: () => ({
@@ -89,11 +87,11 @@ export const Route = createRootRouteWithContext<{
 function RootComponent() {
   return (
     <RootDocument>
-      {/* <PosthogProvider> */}
-      <ThemeProvider defaultTheme="dark" storageKey={themeStorageKey}>
-        <Outlet />
-      </ThemeProvider>
-      {/* </PosthogProvider> */}
+      <PosthogProvider>
+        <ThemeProvider defaultTheme="dark" storageKey={themeStorageKey}>
+          <Outlet />
+        </ThemeProvider>
+      </PosthogProvider>
     </RootDocument>
   );
 }

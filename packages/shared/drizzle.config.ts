@@ -3,7 +3,7 @@ import { config } from "dotenv";
 config({ path: ".env" });
 
 export default {
-  schema: "./db-schema",
+  schema: "./db-tables",
   out: "./migrations",
   dialect: "postgresql",
   dbCredentials: {

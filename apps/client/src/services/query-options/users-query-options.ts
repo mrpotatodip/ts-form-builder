@@ -1,18 +1,13 @@
 import { queryOptions } from "@tanstack/react-query";
 
+import type { UserParam, UserQuery } from "shared";
 import { queryKeyFactory as usersQKF } from "~/services/constants/users-factory";
-import { getUsersRPC } from "~/services/rpcs/users";
-import { authServerSession } from "~/services/better-auth/auth-server";
+import { rpcs as usersRPCs } from "~/services/rpcs/users";
 
 export const queryOptionFactory = {
-  all: () =>
+  detail: (param: UserParam, query: UserQuery) =>
     queryOptions({
-      queryKey: usersQKF.all(),
-      queryFn: async () => await getUsersRPC(),
-    }),
-  details: () =>
-    queryOptions({
-      queryKey: usersQKF.details(),
-      queryFn: async () => await authServerSession(),
+      queryKey: usersQKF.all(param),
+      queryFn: async () => await usersRPCs.all(param, query),
     }),
 };

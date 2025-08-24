@@ -127,14 +127,14 @@ export const SettingsFormCore = ({ fields }: { fields: Builder[] }) => {
                       <div className="flex-1/3">
                         <form.AppField
                           name={`fields[${index}].name`}
-                          children={(field) => <field.TextField label="Name" />}
+                          children={(field) => <field.TextField label="NAME" />}
                         />
                       </div>
                       <div className="flex-2/3">
                         <form.AppField
                           name={`fields[${index}].label`}
                           children={(field) => (
-                            <field.TextField label="Label" />
+                            <field.TextField label="LABEL" />
                           )}
                         />
                       </div>
@@ -148,7 +148,7 @@ export const SettingsFormCore = ({ fields }: { fields: Builder[] }) => {
                             <form.AppField
                               name={`fields[${index}].placeholder`}
                               children={(field) => (
-                                <field.TextField label="Placeholder" />
+                                <field.TextField label="PLACEHOLDER" />
                               )}
                             />
                           </div>
@@ -158,10 +158,21 @@ export const SettingsFormCore = ({ fields }: { fields: Builder[] }) => {
                           <form.AppField
                             name={`fields[${index}].required`}
                             children={(field) => (
-                              <field.CheckboxField label="Required" />
+                              <field.CheckboxField label="AS REQUIRED" />
                             )}
                           />
                         </div>
+
+                        {field.required && (
+                          <div className="">
+                            <form.AppField
+                              name={`fields[${index}].requiredError`}
+                              children={(field) => (
+                                <field.TextField label="REQUIRED ERROR MESSAGE" />
+                              )}
+                            />
+                          </div>
+                        )}
 
                         {isOptions && (
                           <div className="flex flex-col gap-2">
@@ -190,14 +201,14 @@ export const SettingsFormCore = ({ fields }: { fields: Builder[] }) => {
                                           <form.AppField
                                             name={`fields[${index}].options[${optionIndex}].label`}
                                             children={(field) => (
-                                              <field.TextField label="Label" />
+                                              <field.TextField label="LABEL" />
                                             )}
                                           />
 
                                           <form.AppField
                                             name={`fields[${index}].options[${optionIndex}].value`}
                                             children={(field) => (
-                                              <field.TextField label="Value" />
+                                              <field.TextField label="VALUE" />
                                             )}
                                           />
                                         </div>
@@ -216,7 +227,7 @@ export const SettingsFormCore = ({ fields }: { fields: Builder[] }) => {
                               <form.AppField
                                 name={`fields[${index}].minLength`}
                                 children={(field) => (
-                                  <field.TextField label="Min" />
+                                  <field.TextField label="MIN" />
                                 )}
                               />
                             </div>
@@ -224,7 +235,7 @@ export const SettingsFormCore = ({ fields }: { fields: Builder[] }) => {
                               <form.AppField
                                 name={`fields[${index}].minLengthError`}
                                 children={(field) => (
-                                  <field.TextField label="Min Error Message" />
+                                  <field.TextField label="MIN ERROR MESSAGE" />
                                 )}
                               />
                             </div>
@@ -237,7 +248,7 @@ export const SettingsFormCore = ({ fields }: { fields: Builder[] }) => {
                               <form.AppField
                                 name={`fields[${index}].maxLength`}
                                 children={(field) => (
-                                  <field.TextField label="Max" />
+                                  <field.TextField label="MAX" />
                                 )}
                               />
                             </div>
@@ -245,7 +256,7 @@ export const SettingsFormCore = ({ fields }: { fields: Builder[] }) => {
                               <form.AppField
                                 name={`fields[${index}].maxLengthError`}
                                 children={(field) => (
-                                  <field.TextField label="Max Error Message" />
+                                  <field.TextField label="MAX ERROR MESSAGE" />
                                 )}
                               />
                             </div>
@@ -258,7 +269,7 @@ export const SettingsFormCore = ({ fields }: { fields: Builder[] }) => {
                               <form.AppField
                                 name={`fields[${index}].min`}
                                 children={(field) => (
-                                  <field.TextField label="Min" />
+                                  <field.TextField label="MIN" />
                                 )}
                               />
                             </div>
@@ -266,7 +277,7 @@ export const SettingsFormCore = ({ fields }: { fields: Builder[] }) => {
                               <form.AppField
                                 name={`fields[${index}].minError`}
                                 children={(field) => (
-                                  <field.TextField label="Min Error Message" />
+                                  <field.TextField label="MIN ERROR MESSAGE" />
                                 )}
                               />
                             </div>
@@ -279,7 +290,7 @@ export const SettingsFormCore = ({ fields }: { fields: Builder[] }) => {
                               <form.AppField
                                 name={`fields[${index}].max`}
                                 children={(field) => (
-                                  <field.TextField label="Max" />
+                                  <field.TextField label="MAX" />
                                 )}
                               />
                             </div>
@@ -287,7 +298,7 @@ export const SettingsFormCore = ({ fields }: { fields: Builder[] }) => {
                               <form.AppField
                                 name={`fields[${index}].maxError`}
                                 children={(field) => (
-                                  <field.TextField label="Max Error Message" />
+                                  <field.TextField label="MAX ERROR MESSAGE" />
                                 )}
                               />
                             </div>

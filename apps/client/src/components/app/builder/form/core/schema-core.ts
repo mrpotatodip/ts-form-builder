@@ -112,6 +112,7 @@ export const Builder = z.object({
   label: z.string(),
   name: z.string(),
   required: z.boolean(),
+  requiredError: z.string().optional(),
   placeholder: z.string(),
   options: z
     .object({
@@ -139,6 +140,7 @@ export const BuilderDefaults: Builder = {
   label: "",
   name: "demo",
   required: false,
+  requiredError: undefined,
   placeholder: "",
   options: undefined,
   minLength: undefined,

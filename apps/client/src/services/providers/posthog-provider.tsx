@@ -8,8 +8,9 @@ type PostHogProviderProps = {
 const POSTHOG_KEY = import.meta.env.VITE_PUBLIC_POSTHOG_KEY;
 const POSTHOG_HOST = import.meta.env.VITE_PUBLIC_POSTHOG_HOST;
 
-posthog.init(POSTHOG_KEY, { api_host: POSTHOG_HOST, defaults: "2025-05-24" });
+// posthog.init(POSTHOG_KEY, { api_host: POSTHOG_HOST, defaults: "2025-05-24" });
 
 export const PosthogProvider = ({ children }: PostHogProviderProps) => {
-  return <PostHogProvider client={posthog}>{children}</PostHogProvider>;
+  // return <PostHogProvider client={posthog}>{children}</PostHogProvider>;
+  return <>{children}</>;
 };

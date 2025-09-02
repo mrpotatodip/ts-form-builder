@@ -1,8 +1,8 @@
-import { useDataQuery } from "../core/use-data-query-core";
+import { useDataStore } from "../core/use-data-store";
 import { SettingsFormCore } from "../core/settings-form-core";
 
 export const DisplaySettingsForm = () => {
-  const { fields } = useDataQuery();
+  const fields = useDataStore((state) => state.fields);
 
   if (!fields.length)
     return (

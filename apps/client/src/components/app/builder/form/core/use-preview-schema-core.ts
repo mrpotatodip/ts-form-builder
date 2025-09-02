@@ -21,7 +21,7 @@ export const usePreviewSchemaCore = (fields: Builder[]) => {
             : numType.min(field.min);
         if (field.max)
           numType = field.maxError
-            ? numType.max(field.max, { error: field.maxError })
+            ? numType.min(field.max, { error: field.maxError })
             : numType.min(field.max);
         zodType = numType;
         break;
@@ -34,7 +34,7 @@ export const usePreviewSchemaCore = (fields: Builder[]) => {
         if (field.maxLength)
           strType = field.maxLengthError
             ? strType.max(field.maxLength, { error: field.maxLengthError })
-            : strType.min(field.maxLength);
+            : strType.max(field.maxLength);
         zodType = strType;
         break;
     }
@@ -43,7 +43,7 @@ export const usePreviewSchemaCore = (fields: Builder[]) => {
       zodType = zodType.optional();
     }
 
-    shape[field.name] = zodType;
+    shape[field.id] = zodType;
   }
 
   const schema = z.object(shape);

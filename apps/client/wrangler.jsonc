@@ -1,14 +1,14 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "notiftool-client",
+  "name": "betterform-client",
   "main": ".output/server/index.mjs",
-"compatibility_date": "2025-07-01",
+  "compatibility_date": "2025-07-01",
   "compatibility_flags": ["nodejs_compat"],
   "assets": {
-    "directory": ".output/public"
+    "directory": ".output/public",
   },
   "observability": {
-    "enabled": true
+    "enabled": true,
   },
   // "vars": {
   //   "MY_VAR": "my-variable"

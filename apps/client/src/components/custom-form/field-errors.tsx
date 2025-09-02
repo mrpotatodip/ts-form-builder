@@ -7,9 +7,10 @@ type FieldErrorsProps = {
 
 export const FieldErrors = ({ meta }: FieldErrorsProps) => {
   if (!meta.isTouched) return null;
+  if (!meta.errors.length) return null;
 
   return (
-    <div>
+    <div className="flex flex-col gap-1">
       {meta.errors.map(({ message }: ZodError, index) => (
         <p key={index} className="text-xs text-destructive mt-1">
           {message}

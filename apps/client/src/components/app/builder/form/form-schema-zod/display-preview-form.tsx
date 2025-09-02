@@ -1,10 +1,10 @@
 import { ReactNode } from "react";
 
-import { useDataQuery } from "../core/use-data-query-core";
+import { useDataStore } from "../core/use-data-store";
 import { PreviewFormCore } from "../core/preview-form-core";
 
 export const DisplayPreviewForm = () => {
-  const { fields } = useDataQuery();
+  const fields = useDataStore((state) => state.fields);
 
   if (!fields.length)
     return (

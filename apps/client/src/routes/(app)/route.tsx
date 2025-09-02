@@ -1,7 +1,23 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 
-import { useEnsureQueryData_Detail as useEQD_All_Users } from "~/services/hooks/use-users";
-import { useEnsureQueryData_All as useEQD_All_Organizations } from "~/services/hooks/use-organizations";
+import { AppSidebarDashboard } from "@/components/app-sidebar-dashboard";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import { Separator } from "@/components/ui/separator";
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar";
+
+import { useEnsureQueryData_Detail as useEQD_Detail_Users } from "~/services/hooks/use-users";
+import { useEnsureQueryData_All as useEQD_All_forms } from "~/services/hooks/use-forms";
 
 export const Route = createFileRoute("/(app)")({
   beforeLoad: async ({ context }) => {
@@ -10,36 +26,41 @@ export const Route = createFileRoute("/(app)")({
 
     // NOT AUTH USER
     if (!authState) return redirect({ to: "/login" });
-    const { userId } = authState!;
+    const { userId } = authState.session;
 
-    const { data: userState } = await useEQD_All_Users(queryClient, { userId });
+    const { data: userState } = await useEQD_Detail_Users(queryClient, {
+      userId,
+    });
 
-    // if (!partyUserState.data) {
-    //   return {
-    //     ...allOtherContext,
-    //   };
-    // }
+    if (!userState.data) {
+      return {
+        ...allOtherContext,
+      };
+    }
 
-    // const [{ party_uuid: author_party_uuid }] = partyUserState.data;
+    // PARTY ID AS MAIN PARAM
+    const [{ party_uuid }] = userState.data;
 
-    // const [organizationsState] = await Promise.all([
-    //   useEnsureQueryData_All_Organizations(queryClient, { author_party_uuid }),
-    // ]);
+    const [forms] = await Promise.all([
+      useEQD_All_forms(queryClient, { party_uuid }),
+    ]);
 
-    // return {
-    //   ...allOtherContext,
-    //   partyUserState: partyUserState.data,
-    //   organizationsState: organizationsState.data,
-    //   authState,
-    // };
+    const { data: formState } = forms;
+
+    return {
+      ...allOtherContext,
+      userState: userState.data,
+      formsState: formState.data,
+    };
   },
   component: RouteComponent,
 });
 
 function RouteComponent() {
   return (
-    <>
+    <SidebarProvider>
+      <AppSidebarDashboard />
       <Outlet />
-    </>
+    </SidebarProvider>
   );
 }

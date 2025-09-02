@@ -14,9 +14,33 @@ export type * from "./tbl-user";
 export * from "./tbl-organization";
 export type * from "./tbl-organization";
 
+// FORM
+export * from "./tbl-form";
+export type * from "./tbl-form";
+
 // MISC
 export * from "./misc";
 
 export type Envs = {
   DATABASE_URL: string;
+  GITHUB_CLIENT_ID: string;
+  GITHUB_CLIENT_SECRET: string;
+  GITHUB_REDIRECT_URI: string;
+  GOOGLE_CLIENT_ID: string;
+  GOOGLE_CLIENT_SECRET: string;
+  GOOGLE_REDIRECT_URI: string;
+  AUTH_TRUSTED_ORIGINS: string;
+  BETTER_AUTH_SECRET: string;
+  STRIPE_SECRET_KEY: string;
+  STRIPE_WEBHOOK_SECRET: string;
+  STRIPE_PRICE_PRO: string;
+  STRIPE_PRICE_STARTER: string;
+  STRIPE_SUCCESS_URL: string;
+  STRIPE_FAIL_URL: string;
+  CLIENT_URL: string;
+};
+
+export type AuthVariables = {
+  user: unknown | null;
+  session: unknown | null;
 };

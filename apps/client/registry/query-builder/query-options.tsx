@@ -1,7 +1,6 @@
 import { queryOptions } from "@tanstack/react-query";
 
 import { demoQueryKeyFactory } from "./query-key-factory.js";
-import { getUsersRPC } from "~/services/rpcs/users.js";
 
 const allQueryFn = async () => {
   const response = await fetch("sample");

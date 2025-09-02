@@ -6,7 +6,7 @@ import { BuilderDisplay as QueryHooksDisplay } from "./query-hooks";
 import { BuilderDisplay as MutationHooksDisplay } from "./mutation-hooks";
 
 export const QueryDisplay = () => {
-  const { section } = useSearch({ from: "/builder/query" });
+  const { section } = useSearch({ from: "/(demo)/playground/query" });
 
   return (
     <>

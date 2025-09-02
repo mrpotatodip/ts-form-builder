@@ -1,14 +1,14 @@
 import { useCallback, useEffect } from "react";
 
 import { useAppForm } from "~/components/custom-form";
-import { useDataMutation } from "./use-data-query-core";
+import { useDataStore } from "../core/use-data-store";
 import { Builder, BuilderFields, BuilderDefaults } from "./schema-core";
 
 export const useSettingsFormCore = (fields: Builder[]) => {
-  const { mutate, isError } = useDataMutation();
+  const updateBulkData = useDataStore((state) => state.updateBulkData);
 
-  const onChange = useCallback((updates: Builder[]) => {
-    mutate({ data: updates, action: "update" });
+  const onChange = useCallback((items: Builder[]) => {
+    updateBulkData(items);
   }, []);
 
   const form = useAppForm({
@@ -36,6 +36,5 @@ export const useSettingsFormCore = (fields: Builder[]) => {
 
   return {
     form,
-    isError,
   };
 };

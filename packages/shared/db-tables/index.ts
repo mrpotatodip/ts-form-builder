@@ -1,11 +1,6 @@
 // BETTER AUTH DB SCHEMA
-import {
-  user,
-  account,
-  session,
-  verification,
-} from "../better-auth/db-schema/tbl-ba";
 
+import { user, account, session, verification } from "./auth-schema";
 import { tbl_party } from "./tbl-party";
 import { tbl_user } from "./tbl-user";
 import { tbl_organization } from "./tbl-organization";

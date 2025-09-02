@@ -1,14 +1,14 @@
 import { useCallback } from "react";
 
 import { Fields } from "../core/schema-core";
-import { useDataMutation } from "../core/use-data-query-core";
+import { useDataStore } from "../core/use-data-store";
 import { BuilderFieldsInitValues } from "../core/schema-core";
 
 export const BuilderForm = () => {
-  const { mutate } = useDataMutation();
+  const insertData = useDataStore((state) => state.insertData);
 
   const handleAddTo = useCallback((type: Fields) => {
-    mutate({ data: [BuilderFieldsInitValues(type)] });
+    insertData(BuilderFieldsInitValues(type));
   }, []);
 
   return (

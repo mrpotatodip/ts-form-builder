@@ -7,11 +7,13 @@ import {
 
 import { Button } from "~/components/ui/button";
 import { Builder, BuilderFieldsLogic } from "./schema-core";
-import { useDataMutation } from "./use-data-query-core";
+import { useDataStore } from "../core/use-data-store";
 import { useSettingsFormCore } from "./use-settings-form-core";
 
 export const SettingsFormCore = ({ fields }: { fields: Builder[] }) => {
-  const { mutate } = useDataMutation();
+  const deleteData = useDataStore((state) => state.deleteData);
+  const updateBulkData = useDataStore((state) => state.updateBulkData);
+
   const { form } = useSettingsFormCore(fields);
   const [settings, settingsSet] = useState<Record<string, boolean>>({});
 
@@ -22,15 +24,9 @@ export const SettingsFormCore = ({ fields }: { fields: Builder[] }) => {
     [settingsSet]
   );
 
-  const handleDeleteTo = useCallback(
-    (id: string) => {
-      mutate({
-        data: fields.filter((item) => item.id !== id),
-        action: "delete",
-      });
-    },
-    [fields]
-  );
+  const handleDeleteTo = useCallback((id: string) => {
+    deleteData(id);
+  }, []);
 
   const handleAddOptionTo = useCallback(
     (id: string) => {
@@ -48,7 +44,7 @@ export const SettingsFormCore = ({ fields }: { fields: Builder[] }) => {
           };
         return field;
       });
-      mutate({ data, action: "update" });
+      updateBulkData(data);
     },
     [fields]
   );
@@ -64,7 +60,7 @@ export const SettingsFormCore = ({ fields }: { fields: Builder[] }) => {
           };
         return field;
       });
-      mutate({ data, action: "update" });
+      updateBulkData(data, false);
     },
     [fields]
   );

@@ -11,24 +11,29 @@
 import { createServerRootRoute } from '@tanstack/react-start/server'
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as BuilderRouteRouteImport } from './routes/builder/route'
+import { Route as demoRouteRouteImport } from './routes/(demo)/route'
 import { Route as authRouteRouteImport } from './routes/(auth)/route'
 import { Route as appRouteRouteImport } from './routes/(app)/route'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as BuilderQueryRouteRouteImport } from './routes/builder/query/route'
-import { Route as BuilderFormRouteRouteImport } from './routes/builder/form/route'
-import { Route as BuilderQueryIndexRouteImport } from './routes/builder/query/index'
-import { Route as BuilderFormIndexRouteImport } from './routes/builder/form/index'
+import { Route as authLogoutIndexRouteImport } from './routes/(auth)/logout/index'
 import { Route as authLoginIndexRouteImport } from './routes/(auth)/login/index'
 import { Route as appDashboardIndexRouteImport } from './routes/(app)/dashboard/index'
+import { Route as demoPlaygroundQueryRouteRouteImport } from './routes/(demo)/playground/query/route'
+import { Route as demoPlaygroundFormsRouteRouteImport } from './routes/(demo)/playground/forms/route'
+import { Route as appDashboardFormsRouteRouteImport } from './routes/(app)/dashboard/forms/route'
+import { Route as demoPlaygroundQueryIndexRouteImport } from './routes/(demo)/playground/query/index'
+import { Route as demoPlaygroundFormsIndexRouteImport } from './routes/(demo)/playground/forms/index'
+import { Route as appDashboardFormsIndexRouteImport } from './routes/(app)/dashboard/forms/index'
+import { Route as appDashboardFormsForm_uuidRouteRouteImport } from './routes/(app)/dashboard/forms/$form_uuid/route'
+import { Route as appDashboardFormsForm_uuidPreviewIndexRouteImport } from './routes/(app)/dashboard/forms/$form_uuid/preview/index'
+import { Route as appDashboardFormsForm_uuidEditIndexRouteImport } from './routes/(app)/dashboard/forms/$form_uuid/edit/index'
 import { ServerRoute as ApiUsersServerRouteImport } from './routes/api/users'
 import { ServerRoute as ApiUsersUserIdServerRouteImport } from './routes/api/users.$userId'
 
 const rootServerRouteImport = createServerRootRoute()
 
-const BuilderRouteRoute = BuilderRouteRouteImport.update({
-  id: '/builder',
-  path: '/builder',
+const demoRouteRoute = demoRouteRouteImport.update({
+  id: '/(demo)',
   getParentRoute: () => rootRouteImport,
 } as any)
 const authRouteRoute = authRouteRouteImport.update({
@@ -44,25 +49,10 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const BuilderQueryRouteRoute = BuilderQueryRouteRouteImport.update({
-  id: '/query',
-  path: '/query',
-  getParentRoute: () => BuilderRouteRoute,
-} as any)
-const BuilderFormRouteRoute = BuilderFormRouteRouteImport.update({
-  id: '/form',
-  path: '/form',
-  getParentRoute: () => BuilderRouteRoute,
-} as any)
-const BuilderQueryIndexRoute = BuilderQueryIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => BuilderQueryRouteRoute,
-} as any)
-const BuilderFormIndexRoute = BuilderFormIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => BuilderFormRouteRoute,
+const authLogoutIndexRoute = authLogoutIndexRouteImport.update({
+  id: '/logout/',
+  path: '/logout/',
+  getParentRoute: () => authRouteRoute,
 } as any)
 const authLoginIndexRoute = authLoginIndexRouteImport.update({
   id: '/login/',
@@ -74,6 +64,58 @@ const appDashboardIndexRoute = appDashboardIndexRouteImport.update({
   path: '/dashboard/',
   getParentRoute: () => appRouteRoute,
 } as any)
+const demoPlaygroundQueryRouteRoute =
+  demoPlaygroundQueryRouteRouteImport.update({
+    id: '/playground/query',
+    path: '/playground/query',
+    getParentRoute: () => demoRouteRoute,
+  } as any)
+const demoPlaygroundFormsRouteRoute =
+  demoPlaygroundFormsRouteRouteImport.update({
+    id: '/playground/forms',
+    path: '/playground/forms',
+    getParentRoute: () => demoRouteRoute,
+  } as any)
+const appDashboardFormsRouteRoute = appDashboardFormsRouteRouteImport.update({
+  id: '/dashboard/forms',
+  path: '/dashboard/forms',
+  getParentRoute: () => appRouteRoute,
+} as any)
+const demoPlaygroundQueryIndexRoute =
+  demoPlaygroundQueryIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => demoPlaygroundQueryRouteRoute,
+  } as any)
+const demoPlaygroundFormsIndexRoute =
+  demoPlaygroundFormsIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => demoPlaygroundFormsRouteRoute,
+  } as any)
+const appDashboardFormsIndexRoute = appDashboardFormsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => appDashboardFormsRouteRoute,
+} as any)
+const appDashboardFormsForm_uuidRouteRoute =
+  appDashboardFormsForm_uuidRouteRouteImport.update({
+    id: '/$form_uuid',
+    path: '/$form_uuid',
+    getParentRoute: () => appDashboardFormsRouteRoute,
+  } as any)
+const appDashboardFormsForm_uuidPreviewIndexRoute =
+  appDashboardFormsForm_uuidPreviewIndexRouteImport.update({
+    id: '/preview/',
+    path: '/preview/',
+    getParentRoute: () => appDashboardFormsForm_uuidRouteRoute,
+  } as any)
+const appDashboardFormsForm_uuidEditIndexRoute =
+  appDashboardFormsForm_uuidEditIndexRouteImport.update({
+    id: '/edit/',
+    path: '/edit/',
+    getParentRoute: () => appDashboardFormsForm_uuidRouteRoute,
+  } as any)
 const ApiUsersServerRoute = ApiUsersServerRouteImport.update({
   id: '/api/users',
   path: '/api/users',
@@ -86,74 +128,104 @@ const ApiUsersUserIdServerRoute = ApiUsersUserIdServerRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof authRouteRouteWithChildren
-  '/builder': typeof BuilderRouteRouteWithChildren
-  '/builder/form': typeof BuilderFormRouteRouteWithChildren
-  '/builder/query': typeof BuilderQueryRouteRouteWithChildren
+  '/': typeof demoRouteRouteWithChildren
+  '/dashboard/forms': typeof appDashboardFormsRouteRouteWithChildren
+  '/playground/forms': typeof demoPlaygroundFormsRouteRouteWithChildren
+  '/playground/query': typeof demoPlaygroundQueryRouteRouteWithChildren
   '/dashboard': typeof appDashboardIndexRoute
   '/login': typeof authLoginIndexRoute
-  '/builder/form/': typeof BuilderFormIndexRoute
-  '/builder/query/': typeof BuilderQueryIndexRoute
+  '/logout': typeof authLogoutIndexRoute
+  '/dashboard/forms/$form_uuid': typeof appDashboardFormsForm_uuidRouteRouteWithChildren
+  '/dashboard/forms/': typeof appDashboardFormsIndexRoute
+  '/playground/forms/': typeof demoPlaygroundFormsIndexRoute
+  '/playground/query/': typeof demoPlaygroundQueryIndexRoute
+  '/dashboard/forms/$form_uuid/edit': typeof appDashboardFormsForm_uuidEditIndexRoute
+  '/dashboard/forms/$form_uuid/preview': typeof appDashboardFormsForm_uuidPreviewIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof authRouteRouteWithChildren
-  '/builder': typeof BuilderRouteRouteWithChildren
+  '/': typeof demoRouteRouteWithChildren
   '/dashboard': typeof appDashboardIndexRoute
   '/login': typeof authLoginIndexRoute
-  '/builder/form': typeof BuilderFormIndexRoute
-  '/builder/query': typeof BuilderQueryIndexRoute
+  '/logout': typeof authLogoutIndexRoute
+  '/dashboard/forms/$form_uuid': typeof appDashboardFormsForm_uuidRouteRouteWithChildren
+  '/dashboard/forms': typeof appDashboardFormsIndexRoute
+  '/playground/forms': typeof demoPlaygroundFormsIndexRoute
+  '/playground/query': typeof demoPlaygroundQueryIndexRoute
+  '/dashboard/forms/$form_uuid/edit': typeof appDashboardFormsForm_uuidEditIndexRoute
+  '/dashboard/forms/$form_uuid/preview': typeof appDashboardFormsForm_uuidPreviewIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/(app)': typeof appRouteRouteWithChildren
   '/(auth)': typeof authRouteRouteWithChildren
-  '/builder': typeof BuilderRouteRouteWithChildren
-  '/builder/form': typeof BuilderFormRouteRouteWithChildren
-  '/builder/query': typeof BuilderQueryRouteRouteWithChildren
+  '/(demo)': typeof demoRouteRouteWithChildren
+  '/(app)/dashboard/forms': typeof appDashboardFormsRouteRouteWithChildren
+  '/(demo)/playground/forms': typeof demoPlaygroundFormsRouteRouteWithChildren
+  '/(demo)/playground/query': typeof demoPlaygroundQueryRouteRouteWithChildren
   '/(app)/dashboard/': typeof appDashboardIndexRoute
   '/(auth)/login/': typeof authLoginIndexRoute
-  '/builder/form/': typeof BuilderFormIndexRoute
-  '/builder/query/': typeof BuilderQueryIndexRoute
+  '/(auth)/logout/': typeof authLogoutIndexRoute
+  '/(app)/dashboard/forms/$form_uuid': typeof appDashboardFormsForm_uuidRouteRouteWithChildren
+  '/(app)/dashboard/forms/': typeof appDashboardFormsIndexRoute
+  '/(demo)/playground/forms/': typeof demoPlaygroundFormsIndexRoute
+  '/(demo)/playground/query/': typeof demoPlaygroundQueryIndexRoute
+  '/(app)/dashboard/forms/$form_uuid/edit/': typeof appDashboardFormsForm_uuidEditIndexRoute
+  '/(app)/dashboard/forms/$form_uuid/preview/': typeof appDashboardFormsForm_uuidPreviewIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/builder'
-    | '/builder/form'
-    | '/builder/query'
+    | '/dashboard/forms'
+    | '/playground/forms'
+    | '/playground/query'
     | '/dashboard'
     | '/login'
-    | '/builder/form/'
-    | '/builder/query/'
+    | '/logout'
+    | '/dashboard/forms/$form_uuid'
+    | '/dashboard/forms/'
+    | '/playground/forms/'
+    | '/playground/query/'
+    | '/dashboard/forms/$form_uuid/edit'
+    | '/dashboard/forms/$form_uuid/preview'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/builder'
     | '/dashboard'
     | '/login'
-    | '/builder/form'
-    | '/builder/query'
+    | '/logout'
+    | '/dashboard/forms/$form_uuid'
+    | '/dashboard/forms'
+    | '/playground/forms'
+    | '/playground/query'
+    | '/dashboard/forms/$form_uuid/edit'
+    | '/dashboard/forms/$form_uuid/preview'
   id:
     | '__root__'
     | '/'
     | '/(app)'
     | '/(auth)'
-    | '/builder'
-    | '/builder/form'
-    | '/builder/query'
+    | '/(demo)'
+    | '/(app)/dashboard/forms'
+    | '/(demo)/playground/forms'
+    | '/(demo)/playground/query'
     | '/(app)/dashboard/'
     | '/(auth)/login/'
-    | '/builder/form/'
-    | '/builder/query/'
+    | '/(auth)/logout/'
+    | '/(app)/dashboard/forms/$form_uuid'
+    | '/(app)/dashboard/forms/'
+    | '/(demo)/playground/forms/'
+    | '/(demo)/playground/query/'
+    | '/(app)/dashboard/forms/$form_uuid/edit/'
+    | '/(app)/dashboard/forms/$form_uuid/preview/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   appRouteRoute: typeof appRouteRouteWithChildren
   authRouteRoute: typeof authRouteRouteWithChildren
-  BuilderRouteRoute: typeof BuilderRouteRouteWithChildren
+  demoRouteRoute: typeof demoRouteRouteWithChildren
 }
 export interface FileServerRoutesByFullPath {
   '/api/users': typeof ApiUsersServerRouteWithChildren
@@ -182,11 +254,11 @@ export interface RootServerRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/builder': {
-      id: '/builder'
-      path: '/builder'
-      fullPath: '/builder'
-      preLoaderRoute: typeof BuilderRouteRouteImport
+    '/(demo)': {
+      id: '/(demo)'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof demoRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(auth)': {
@@ -210,33 +282,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/builder/query': {
-      id: '/builder/query'
-      path: '/query'
-      fullPath: '/builder/query'
-      preLoaderRoute: typeof BuilderQueryRouteRouteImport
-      parentRoute: typeof BuilderRouteRoute
-    }
-    '/builder/form': {
-      id: '/builder/form'
-      path: '/form'
-      fullPath: '/builder/form'
-      preLoaderRoute: typeof BuilderFormRouteRouteImport
-      parentRoute: typeof BuilderRouteRoute
-    }
-    '/builder/query/': {
-      id: '/builder/query/'
-      path: '/'
-      fullPath: '/builder/query/'
-      preLoaderRoute: typeof BuilderQueryIndexRouteImport
-      parentRoute: typeof BuilderQueryRouteRoute
-    }
-    '/builder/form/': {
-      id: '/builder/form/'
-      path: '/'
-      fullPath: '/builder/form/'
-      preLoaderRoute: typeof BuilderFormIndexRouteImport
-      parentRoute: typeof BuilderFormRouteRoute
+    '/(auth)/logout/': {
+      id: '/(auth)/logout/'
+      path: '/logout'
+      fullPath: '/logout'
+      preLoaderRoute: typeof authLogoutIndexRouteImport
+      parentRoute: typeof authRouteRoute
     }
     '/(auth)/login/': {
       id: '/(auth)/login/'
@@ -251,6 +302,69 @@ declare module '@tanstack/react-router' {
       fullPath: '/dashboard'
       preLoaderRoute: typeof appDashboardIndexRouteImport
       parentRoute: typeof appRouteRoute
+    }
+    '/(demo)/playground/query': {
+      id: '/(demo)/playground/query'
+      path: '/playground/query'
+      fullPath: '/playground/query'
+      preLoaderRoute: typeof demoPlaygroundQueryRouteRouteImport
+      parentRoute: typeof demoRouteRoute
+    }
+    '/(demo)/playground/forms': {
+      id: '/(demo)/playground/forms'
+      path: '/playground/forms'
+      fullPath: '/playground/forms'
+      preLoaderRoute: typeof demoPlaygroundFormsRouteRouteImport
+      parentRoute: typeof demoRouteRoute
+    }
+    '/(app)/dashboard/forms': {
+      id: '/(app)/dashboard/forms'
+      path: '/dashboard/forms'
+      fullPath: '/dashboard/forms'
+      preLoaderRoute: typeof appDashboardFormsRouteRouteImport
+      parentRoute: typeof appRouteRoute
+    }
+    '/(demo)/playground/query/': {
+      id: '/(demo)/playground/query/'
+      path: '/'
+      fullPath: '/playground/query/'
+      preLoaderRoute: typeof demoPlaygroundQueryIndexRouteImport
+      parentRoute: typeof demoPlaygroundQueryRouteRoute
+    }
+    '/(demo)/playground/forms/': {
+      id: '/(demo)/playground/forms/'
+      path: '/'
+      fullPath: '/playground/forms/'
+      preLoaderRoute: typeof demoPlaygroundFormsIndexRouteImport
+      parentRoute: typeof demoPlaygroundFormsRouteRoute
+    }
+    '/(app)/dashboard/forms/': {
+      id: '/(app)/dashboard/forms/'
+      path: '/'
+      fullPath: '/dashboard/forms/'
+      preLoaderRoute: typeof appDashboardFormsIndexRouteImport
+      parentRoute: typeof appDashboardFormsRouteRoute
+    }
+    '/(app)/dashboard/forms/$form_uuid': {
+      id: '/(app)/dashboard/forms/$form_uuid'
+      path: '/$form_uuid'
+      fullPath: '/dashboard/forms/$form_uuid'
+      preLoaderRoute: typeof appDashboardFormsForm_uuidRouteRouteImport
+      parentRoute: typeof appDashboardFormsRouteRoute
+    }
+    '/(app)/dashboard/forms/$form_uuid/preview/': {
+      id: '/(app)/dashboard/forms/$form_uuid/preview/'
+      path: '/preview'
+      fullPath: '/dashboard/forms/$form_uuid/preview'
+      preLoaderRoute: typeof appDashboardFormsForm_uuidPreviewIndexRouteImport
+      parentRoute: typeof appDashboardFormsForm_uuidRouteRoute
+    }
+    '/(app)/dashboard/forms/$form_uuid/edit/': {
+      id: '/(app)/dashboard/forms/$form_uuid/edit/'
+      path: '/edit'
+      fullPath: '/dashboard/forms/$form_uuid/edit'
+      preLoaderRoute: typeof appDashboardFormsForm_uuidEditIndexRouteImport
+      parentRoute: typeof appDashboardFormsForm_uuidRouteRoute
     }
   }
 }
@@ -273,11 +387,48 @@ declare module '@tanstack/react-start/server' {
   }
 }
 
+interface appDashboardFormsForm_uuidRouteRouteChildren {
+  appDashboardFormsForm_uuidEditIndexRoute: typeof appDashboardFormsForm_uuidEditIndexRoute
+  appDashboardFormsForm_uuidPreviewIndexRoute: typeof appDashboardFormsForm_uuidPreviewIndexRoute
+}
+
+const appDashboardFormsForm_uuidRouteRouteChildren: appDashboardFormsForm_uuidRouteRouteChildren =
+  {
+    appDashboardFormsForm_uuidEditIndexRoute:
+      appDashboardFormsForm_uuidEditIndexRoute,
+    appDashboardFormsForm_uuidPreviewIndexRoute:
+      appDashboardFormsForm_uuidPreviewIndexRoute,
+  }
+
+const appDashboardFormsForm_uuidRouteRouteWithChildren =
+  appDashboardFormsForm_uuidRouteRoute._addFileChildren(
+    appDashboardFormsForm_uuidRouteRouteChildren,
+  )
+
+interface appDashboardFormsRouteRouteChildren {
+  appDashboardFormsForm_uuidRouteRoute: typeof appDashboardFormsForm_uuidRouteRouteWithChildren
+  appDashboardFormsIndexRoute: typeof appDashboardFormsIndexRoute
+}
+
+const appDashboardFormsRouteRouteChildren: appDashboardFormsRouteRouteChildren =
+  {
+    appDashboardFormsForm_uuidRouteRoute:
+      appDashboardFormsForm_uuidRouteRouteWithChildren,
+    appDashboardFormsIndexRoute: appDashboardFormsIndexRoute,
+  }
+
+const appDashboardFormsRouteRouteWithChildren =
+  appDashboardFormsRouteRoute._addFileChildren(
+    appDashboardFormsRouteRouteChildren,
+  )
+
 interface appRouteRouteChildren {
+  appDashboardFormsRouteRoute: typeof appDashboardFormsRouteRouteWithChildren
   appDashboardIndexRoute: typeof appDashboardIndexRoute
 }
 
 const appRouteRouteChildren: appRouteRouteChildren = {
+  appDashboardFormsRouteRoute: appDashboardFormsRouteRouteWithChildren,
   appDashboardIndexRoute: appDashboardIndexRoute,
 }
 
@@ -287,50 +438,58 @@ const appRouteRouteWithChildren = appRouteRoute._addFileChildren(
 
 interface authRouteRouteChildren {
   authLoginIndexRoute: typeof authLoginIndexRoute
+  authLogoutIndexRoute: typeof authLogoutIndexRoute
 }
 
 const authRouteRouteChildren: authRouteRouteChildren = {
   authLoginIndexRoute: authLoginIndexRoute,
+  authLogoutIndexRoute: authLogoutIndexRoute,
 }
 
 const authRouteRouteWithChildren = authRouteRoute._addFileChildren(
   authRouteRouteChildren,
 )
 
-interface BuilderFormRouteRouteChildren {
-  BuilderFormIndexRoute: typeof BuilderFormIndexRoute
+interface demoPlaygroundFormsRouteRouteChildren {
+  demoPlaygroundFormsIndexRoute: typeof demoPlaygroundFormsIndexRoute
 }
 
-const BuilderFormRouteRouteChildren: BuilderFormRouteRouteChildren = {
-  BuilderFormIndexRoute: BuilderFormIndexRoute,
+const demoPlaygroundFormsRouteRouteChildren: demoPlaygroundFormsRouteRouteChildren =
+  {
+    demoPlaygroundFormsIndexRoute: demoPlaygroundFormsIndexRoute,
+  }
+
+const demoPlaygroundFormsRouteRouteWithChildren =
+  demoPlaygroundFormsRouteRoute._addFileChildren(
+    demoPlaygroundFormsRouteRouteChildren,
+  )
+
+interface demoPlaygroundQueryRouteRouteChildren {
+  demoPlaygroundQueryIndexRoute: typeof demoPlaygroundQueryIndexRoute
 }
 
-const BuilderFormRouteRouteWithChildren =
-  BuilderFormRouteRoute._addFileChildren(BuilderFormRouteRouteChildren)
+const demoPlaygroundQueryRouteRouteChildren: demoPlaygroundQueryRouteRouteChildren =
+  {
+    demoPlaygroundQueryIndexRoute: demoPlaygroundQueryIndexRoute,
+  }
 
-interface BuilderQueryRouteRouteChildren {
-  BuilderQueryIndexRoute: typeof BuilderQueryIndexRoute
+const demoPlaygroundQueryRouteRouteWithChildren =
+  demoPlaygroundQueryRouteRoute._addFileChildren(
+    demoPlaygroundQueryRouteRouteChildren,
+  )
+
+interface demoRouteRouteChildren {
+  demoPlaygroundFormsRouteRoute: typeof demoPlaygroundFormsRouteRouteWithChildren
+  demoPlaygroundQueryRouteRoute: typeof demoPlaygroundQueryRouteRouteWithChildren
 }
 
-const BuilderQueryRouteRouteChildren: BuilderQueryRouteRouteChildren = {
-  BuilderQueryIndexRoute: BuilderQueryIndexRoute,
+const demoRouteRouteChildren: demoRouteRouteChildren = {
+  demoPlaygroundFormsRouteRoute: demoPlaygroundFormsRouteRouteWithChildren,
+  demoPlaygroundQueryRouteRoute: demoPlaygroundQueryRouteRouteWithChildren,
 }
 
-const BuilderQueryRouteRouteWithChildren =
-  BuilderQueryRouteRoute._addFileChildren(BuilderQueryRouteRouteChildren)
-
-interface BuilderRouteRouteChildren {
-  BuilderFormRouteRoute: typeof BuilderFormRouteRouteWithChildren
-  BuilderQueryRouteRoute: typeof BuilderQueryRouteRouteWithChildren
-}
-
-const BuilderRouteRouteChildren: BuilderRouteRouteChildren = {
-  BuilderFormRouteRoute: BuilderFormRouteRouteWithChildren,
-  BuilderQueryRouteRoute: BuilderQueryRouteRouteWithChildren,
-}
-
-const BuilderRouteRouteWithChildren = BuilderRouteRoute._addFileChildren(
-  BuilderRouteRouteChildren,
+const demoRouteRouteWithChildren = demoRouteRoute._addFileChildren(
+  demoRouteRouteChildren,
 )
 
 interface ApiUsersServerRouteChildren {
@@ -349,7 +508,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   appRouteRoute: appRouteRouteWithChildren,
   authRouteRoute: authRouteRouteWithChildren,
-  BuilderRouteRoute: BuilderRouteRouteWithChildren,
+  demoRouteRoute: demoRouteRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

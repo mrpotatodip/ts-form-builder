@@ -11,6 +11,7 @@ const all = async (param: UserParam, query: UserQuery) => {
       query,
     })
   );
+
   return result;
 };
 

@@ -1,28 +1,23 @@
 import { Hono } from "hono";
-import { cors } from "hono/cors";
 
 import auth from "./auth";
 import ba_users from "./ ba-users";
 import users from "./users";
 import organizations from "./organizations";
+import forms from "./forms";
 
-const app = new Hono<{ Bindings: CloudflareBindings }>();
+const app = new Hono<{
+  Bindings: CloudflareBindings;
+  Variables: {
+    user: unknown | null;
+    session: unknown | null;
+  };
+}>();
 
-app.use(
-  "*",
-  cors({
-    origin: ["http://localhost:3000", "https://app.hodle.xyz"], // ✅ Allow your frontend
-    allowMethods: ["GET", "POST", "OPTIONS", "DELETE", "PUT"], // ✅ Allow necessary methods
-    allowHeaders: ["Content-Type", "Authorization", "hodle-api-key"], // ✅ Allow necessary headers
-    credentials: true, // ✅ Allow cookies & credentials (if needed)
-  })
-);
-
-app.route("/auth/v1", auth);
-
-// RPCs
+app.route("/", auth);
 app.route("/", ba_users);
 app.route("/", users);
 app.route("/", organizations);
+app.route("/", forms);
 
 export default app;

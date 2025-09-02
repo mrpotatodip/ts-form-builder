@@ -1,7 +1,7 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 
 import { Builder } from "./schema-core";
-import { useDataQuery } from "./use-data-query-core";
+import { useDataStore } from "./use-data-store";
 import { processQuery } from "./template-process-core";
 
 const queryKey = ["template"];
@@ -10,7 +10,7 @@ export const useTemplateQuery = (
   templateOutput: (fields: Builder[]) => Promise<{ result: string }>,
   key: string
 ) => {
-  const { fields } = useDataQuery();
+  const fields = useDataStore((state) => state.fields);
 
   const query = useQuery({
     queryKey: [...queryKey, ...fields, key],

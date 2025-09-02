@@ -93,19 +93,19 @@ export const ThemeSwitcher = () => {
         setTheme(theme === "light" ? "dark" : "light");
         themeCountSet(themeCount + 1);
       }}
-      className="flex items-center gap-1 cursor-pointer transition-colors"
+      className="flex items-center gap-2 cursor-pointer transition-colors"
       style={{ opacity: mounted ? 1 : 0 }}
     >
       {theme === "dark" ? (
         <>
-          <MoonIcon className="size-5" />
+          <MoonIcon className="size-4" />
           {isLabel ? (
-            <span className="uppercase tracking-wider text-xs">Vader</span>
+            <span className="uppercase tracking-widest text-xs">Vader</span>
           ) : null}
         </>
       ) : (
         <>
-          <SunIcon className="size-5" />
+          <SunIcon className="size-4" />
           {isLabel ? (
             <span className="uppercase tracking-wider text-xs">Luke</span>
           ) : null}

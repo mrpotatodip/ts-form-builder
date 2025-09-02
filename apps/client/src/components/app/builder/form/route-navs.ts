@@ -5,18 +5,18 @@ export const getSidebarNavs = () =>
   linkOptions([
     {
       label: "Form Builder",
-      to: "/builder/form",
+      to: "/playground/forms",
       icon: BuilderFormIcon,
       isActive: true,
       items: linkOptions([
         {
           label: "All",
-          to: "/builder/form",
+          to: "/playground/forms",
           search: { section: "all" },
         },
         {
           label: "Zod Schema",
-          to: "/builder/form",
+          to: "/playground/forms",
           search: { section: "form-schema-zod" },
         },
       ]),

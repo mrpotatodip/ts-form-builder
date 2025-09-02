@@ -5,15 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1755991493739,
-      "tag": "0000_public_centennial",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1755991541292,
-      "tag": "0001_high_falcon",
+      "when": 1756163213972,
+      "tag": "0000_rapid_gauntlet",
       "breakpoints": true
     }
   ]

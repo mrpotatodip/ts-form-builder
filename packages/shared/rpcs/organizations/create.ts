@@ -11,18 +11,18 @@ export const create = async (db: DBNeonConnect, json: OrganizationJson) => {
     //   .insert(tbl_hodl_party)
     //   .values({ type: "organization" })
     //   .returning();
-
-    const organization = await tx
-      .insert(tbl_organization)
-      .values({
-        ...json,
-        status: "active",
-      })
-      .returning();
-    return {
-      organization,
-    };
+    // const organization = await tx
+    //   .insert(tbl_organization)
+    //   .values({
+    //     ...json,
+    //     status: "active",
+    //   })
+    //   .returning();
+    // return {
+    //   organization,
+    // };
   });
 
-  return transactions.organization;
+  // return transactions.organization;
+  return [];
 };

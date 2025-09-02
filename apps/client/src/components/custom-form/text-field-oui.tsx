@@ -34,7 +34,6 @@ export const TextField = ({ type, label, ...inputProps }: TextFieldProps) => {
   return (
     <div className="*:not-first:mt-0.5">
       <FieldLabel htmlFor={field.name} label={label} />
-
       <div className="relative">
         <Input
           step={type === "time" ? 1 : undefined}
@@ -74,7 +73,6 @@ export const TextField = ({ type, label, ...inputProps }: TextFieldProps) => {
           </div>
         ) : null}
       </div>
-
       <FieldErrors meta={field.state.meta} />
     </div>
   );

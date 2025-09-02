@@ -31,3 +31,19 @@ content-type: application/json
     "status": "active",
     "author_party_uuid": "ad5a0626-9b8a-460b-9bbd-960cf505e2ed"
 }
+
+
+### GET FORMS 
+GET http://localhost:8787/forms/179f4097-2fac-4de2-ba0c-4132fbb6896a
+
+
+### CREATE FORMS
+POST http://localhost:8787/forms HTTP/1.1
+content-type: application/json
+
+{   
+    "party_uuid": "179f4097-2fac-4de2-ba0c-4132fbb6896a",
+    "name": "A new form",
+    "description": "A new form created",
+    "json": {}
+}

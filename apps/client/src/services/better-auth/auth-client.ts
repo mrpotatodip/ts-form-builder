@@ -1,10 +1,16 @@
-import { createAuthClient } from "better-auth/client";
+import { createAuthClient } from "better-auth/react";
 import { redirect } from "@tanstack/react-router";
+import { session } from "shared/better-auth/db-schema";
 
 const baseURL = import.meta.env.VITE_BETTER_AUTH_API_URL;
 const callbackURL = import.meta.env.VITE_BETTER_AUTH_CALLBACK_URL;
 
-export const authClient = createAuthClient({ baseURL });
+export const authClient = createAuthClient({
+  baseURL,
+  fetchOptions: {
+    credentials: "include",
+  },
+});
 
 export const authSignout = async () => {
   await authClient.revokeSessions();
@@ -16,7 +22,7 @@ export const authSigninWithGithub = async () => {
     { provider: "github", callbackURL },
     {
       onSuccess: (ctx) => {
-        redirect({ to: "/dashboard" });
+        redirect({ to: "/dashboard/forms" });
       },
       onError: (error) => {
         console.error(error);
@@ -30,7 +36,7 @@ export const authSigninWithGoogle = async () => {
     { provider: "google", callbackURL },
     {
       onSuccess: (ctx) => {
-        redirect({ to: "/dashboard" });
+        redirect({ to: "/dashboard/forms" });
       },
       onError: (error) => {
         console.error(error);
@@ -39,7 +45,8 @@ export const authSigninWithGoogle = async () => {
   );
 };
 
-export const authSession = async () => {
+export const authClientSession = async () => {
+  // This returns null
   const { data } = await authClient.getSession();
   if (!data) return null;
   return data;

@@ -20,6 +20,7 @@ import {
   ThemeProvider,
   themeStorageKey,
 } from "~/services/providers/theme-provider";
+import { SSRPageLoader } from "~/components/custom-ui/ssr-page-loader/ssr-page";
 import { fetchQuery_Details } from "~/services/hooks/use-ba-users";
 
 export const Route = createRootRouteWithContext<{
@@ -33,6 +34,7 @@ export const Route = createRootRouteWithContext<{
       authState: authState,
       userState: [],
       organizationsState: [],
+      forms: [],
     };
   },
   head: () => ({
@@ -89,7 +91,17 @@ function RootComponent() {
     <RootDocument>
       <PosthogProvider>
         <ThemeProvider defaultTheme="dark" storageKey={themeStorageKey}>
-          <Outlet />
+          <SSRPageLoader
+            options={{
+              includeStyles: true,
+              includeImages: false, // Disable images for faster loading
+              includeScripts: false, // Disable scripts for faster loading
+              timeout: 5000,
+              minimumLoadTime: 300,
+            }}
+          >
+            <Outlet />
+          </SSRPageLoader>
         </ThemeProvider>
       </PosthogProvider>
     </RootDocument>
@@ -101,6 +113,49 @@ function RootDocument({ children }: { children: React.ReactNode }) {
     <html>
       <head>
         <HeadContent />
+
+        <style>{`
+          /* Prevent flash of unstyled content */
+          body {
+            margin: 0;
+            // font-family: system-ui, -apple-system, sans-serif;
+            // background: #fff;
+          }
+          
+          /* Ensure content is hidden during loading */
+          .app-content {
+            opacity: 1;
+            transition: opacity 0.3s ease;
+          }
+          
+          /* Loading state styles */
+          .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            // background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+          }
+        `}</style>
+
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                if (localStorage.getItem('betterform-theme') === 'dark' || (!('betterform-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                  document.documentElement.classList.add('dark')
+                } else {
+                  document.documentElement.classList.remove('dark')
+                }
+              } catch (_) {}
+            `,
+          }}
+        />
       </head>
       <body>
         {children}

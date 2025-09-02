@@ -17,7 +17,7 @@ import {
   SidebarMenuSubItem,
 } from "~/components/ui/sidebar";
 
-const urlTo = "/builder/query";
+const urlTo = "/playground/query";
 const getLinkOptions = () => [
   {
     title: "Query Builder",

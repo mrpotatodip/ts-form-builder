@@ -13,7 +13,7 @@ export const CodeBlock = ({
     language={language}
     style={vscDarkPlus}
     customStyle={{
-      width: 450,
+      // width: 450,
       margin: 0,
       fontSize: "0.8rem",
     }}

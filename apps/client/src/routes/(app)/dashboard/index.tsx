@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-// import { DashboardTest } from "~/components/app/dashboard/test";
+import { Dashboard } from "~/components/app/dashboard";
 
 export const Route = createFileRoute("/(app)/dashboard/")({
   component: RouteComponent,
@@ -9,8 +9,7 @@ export const Route = createFileRoute("/(app)/dashboard/")({
 function RouteComponent() {
   return (
     <div>
-      {/* <DashboardTest /> */}
-      sample
+      <Dashboard />
     </div>
   );
 }

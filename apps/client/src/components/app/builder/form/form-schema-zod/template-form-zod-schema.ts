@@ -56,9 +56,15 @@ const utilFieldToZod = (field: Builder) => {
     return str;
   };
 
-  const minmaxStr = <Tminmax, Terror>(minmax: Tminmax, error: Terror) => {
+  const minmaxStr = <Ttype, Tminmax, Terror>(
+    ttype: Ttype,
+    minmax: Tminmax,
+    error: Terror
+  ) => {
     let str = "";
-    str += minmax ? `.min(${minmax} ${error ? `, ${errStr(error)}` : ""})` : "";
+    str += minmax
+      ? `.${ttype}(${minmax} ${error ? `, ${errStr(error)}` : ""})`
+      : "";
     return str;
   };
 
@@ -67,19 +73,19 @@ const utilFieldToZod = (field: Builder) => {
     case "password":
     case "textarea":
       zodType = `z.string(${errStr(field.requiredError)})`;
-      zodType += minmaxStr(field.minLength, field.minLengthError);
-      zodType += minmaxStr(field.maxLength, field.maxLengthError);
+      zodType += minmaxStr("min", field.minLength, field.minLengthError);
+      zodType += minmaxStr("max", field.maxLength, field.maxLengthError);
       break;
     case "email":
       zodType = `z.string(${errStr(field.requiredError)})`;
-      zodType += minmaxStr(field.minLength, field.minLengthError);
-      zodType += minmaxStr(field.maxLength, field.maxLengthError);
+      zodType += minmaxStr("min", field.minLength, field.minLengthError);
+      zodType += minmaxStr("max", field.maxLength, field.maxLengthError);
       zodType += ".email()";
       break;
     case "number":
       zodType = "z.number()";
-      zodType += minmaxStr(field.min, field.minError);
-      zodType += minmaxStr(field.max, field.maxError);
+      zodType += minmaxStr("min", field.min, field.minError);
+      zodType += minmaxStr("max", field.max, field.maxError);
       break;
     case "select":
       if (field.options && field.options.length > 0) {

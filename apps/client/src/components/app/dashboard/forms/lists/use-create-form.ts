@@ -1,19 +1,18 @@
-import { useRouteContext, useRouter } from "@tanstack/react-router";
+import { useRouteContext } from "@tanstack/react-router";
 
-import { FormUpdateSchema, FormCreate } from "shared";
+import { FormCreateSchema, FormInitValues } from "shared";
 
 import { useAppForm } from "~/components/custom-form";
 import { useMutateData } from "~/services/hooks/use-forms";
-import { useQuery_Detail_Forms } from "~/services/hooks/use-forms";
 
 export const useCreateForm = () => {
-  const router = useRouter();
   const { userState } = useRouteContext({ from: "/(app)" });
   const [{ party_uuid }] = userState;
+  const defaultValues = FormInitValues(party_uuid);
 
   const {
     mutateCreate: {
-      mutateAsync: createAsync,
+      mutateAsync: createForm,
       isPending: isPendingUpdate,
       isSuccess: isSuccessUpdate,
     },
@@ -21,19 +20,16 @@ export const useCreateForm = () => {
 
   const form = useAppForm({
     defaultValues: {
-      name: "",
-      description: "",
-      json: JSON.stringify({ fields: [] }),
+      ...defaultValues,
     },
     validators: {
-      onChange: FormUpdateSchema,
+      onChange: FormCreateSchema,
     },
     onSubmit: async ({ value }) => {
       const param = { party_uuid };
-      const json = { party_uuid, ...value };
+      const json = { ...value };
       const data = { json, param };
-      await createAsync(data);
-      router.navigate({ to: "." });
+      await createForm(data);
     },
     listeners: {
       onChange: ({ formApi, fieldApi }) => {

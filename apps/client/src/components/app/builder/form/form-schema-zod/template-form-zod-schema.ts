@@ -7,7 +7,7 @@ import parserHtml from "prettier/plugins/html";
 import parserCss from "prettier/plugins/postcss";
 import z from "zod";
 
-import { Builder } from "../core/schema-core";
+import { BuilderFields } from "../core/schema-core";
 
 const template = `
 import { z } from "zod"
@@ -48,7 +48,7 @@ const utilPrettify = async (output: string) => {
   return formatted;
 };
 
-const utilFieldToZod = (field: Builder) => {
+const utilFieldToZod = (field: BuilderFields) => {
   let zodType = "";
 
   const errStr = <Terror>(error: Terror) => {
@@ -62,6 +62,8 @@ const utilFieldToZod = (field: Builder) => {
     error: Terror
   ) => {
     let str = "";
+    if (isNaN(Number(minmax))) return str;
+
     str += minmax
       ? `.${ttype}(${minmax} ${error ? `, ${errStr(error)}` : ""})`
       : "";
@@ -110,7 +112,7 @@ const utilFieldToZod = (field: Builder) => {
   return zodType;
 };
 
-export const output = async (fields: Builder[]) => {
+export const output = async (fields: BuilderFields[]) => {
   const compiled = Handlebars.compile(template);
   const schemaFields = fields.map((f) => ({
     ...f,

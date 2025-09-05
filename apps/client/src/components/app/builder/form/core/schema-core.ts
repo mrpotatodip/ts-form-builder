@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { FormSchema } from "shared";
+
 export const Fields = [
   {
     value: "text",
@@ -36,15 +38,15 @@ export const Fields = [
   {
     value: "date",
     label: "Date",
-    placeholder: true,
+    placeholder: false,
     minmax: false,
-    minmaxLength: true,
+    minmaxLength: false,
     options: false,
   },
   {
     value: "time",
     label: "Time",
-    placeholder: true,
+    placeholder: false,
     minmax: false,
     minmaxLength: false,
     options: false,
@@ -60,7 +62,7 @@ export const Fields = [
   {
     value: "datepicker",
     label: "Date Picker",
-    placeholder: true,
+    placeholder: false,
     minmax: false,
     minmaxLength: false,
     options: false,
@@ -89,6 +91,14 @@ export const Fields = [
     minmaxLength: false,
     options: false,
   },
+  {
+    value: "switch",
+    label: "Switch",
+    placeholder: false,
+    minmax: false,
+    minmaxLength: false,
+    options: false,
+  },
 ] as const;
 export type Fields = (typeof Fields)[number]["value"];
 export const FieldsDefault = Fields[0].value;
@@ -105,7 +115,10 @@ export type ZodSchemaFields = {
   [key: string]: any;
 };
 
-export const Builder = z.object({
+export const BuilderFormDBs = FormSchema;
+export type BuilderFormDBs = z.infer<typeof BuilderFormDBs>;
+
+export const BuilderFields = z.object({
   isHover: z.boolean(),
   id: z.string(),
   type: z.enum(FieldsEnum),
@@ -121,19 +134,21 @@ export const Builder = z.object({
     })
     .array()
     .optional(),
-  minLength: z.number().optional(),
+  isMinMaxLength: z.boolean(),
+  minLength: z.string().optional(),
+  maxLength: z.string().optional(),
   minLengthError: z.string().optional(),
-  maxLength: z.number().optional(),
   maxLengthError: z.string().optional(),
-  min: z.number().optional(),
+  isMinMax: z.boolean(),
+  min: z.string().optional(),
+  max: z.string().optional(),
   minError: z.string().optional(),
-  max: z.number().optional(),
   maxError: z.string().optional(),
 });
 
-export type Builder = z.infer<typeof Builder>;
+export type BuilderFields = z.infer<typeof BuilderFields>;
 
-export const BuilderDefaults: Builder = {
+export const BuilderFieldsDefaults: BuilderFields = {
   isHover: false,
   id: "",
   type: FieldsDefault,
@@ -143,24 +158,28 @@ export const BuilderDefaults: Builder = {
   requiredError: undefined,
   placeholder: "",
   options: undefined,
+  isMinMaxLength: false,
   minLength: undefined,
-  minLengthError: undefined,
   maxLength: undefined,
+  minLengthError: undefined,
   maxLengthError: undefined,
+  isMinMax: false,
   min: undefined,
-  minError: undefined,
   max: undefined,
+  minError: undefined,
   maxError: undefined,
 };
 
-export const BuilderFields = z.object({
-  fields: Builder.array(),
+export const BuilderFieldsForms = z.object({
+  fields: BuilderFields.array(),
+  form: BuilderFormDBs.array(),
 });
 
-export type BuilderFields = z.infer<typeof BuilderFields>;
+export type BuilderFieldsForms = z.infer<typeof BuilderFieldsForms>;
 
-export const BuilderFieldsDefaults: BuilderFields = {
-  fields: [BuilderDefaults],
+export const BuilderFieldsFormsDefaults: BuilderFieldsForms = {
+  fields: [BuilderFieldsDefaults],
+  form: [],
 };
 
 // LOGIC
@@ -188,8 +207,10 @@ export const BuilderFieldsLogic = (type: Fields) => ({
 });
 
 export const BuilderFieldsInitValues = (type: Fields) => {
-  const randomString = (len: number = 4) => {
-    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+  const randomString = (
+    len: number = 4,
+    chars: string = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+  ) => {
     let result = "";
     for (let i = 0; i < len; i++) {
       result += chars.charAt(Math.floor(Math.random() * chars.length));
@@ -200,7 +221,7 @@ export const BuilderFieldsInitValues = (type: Fields) => {
   const identifier = `${type}_${randomString()}`;
 
   return {
-    ...BuilderDefaults,
+    ...BuilderFieldsDefaults,
     type,
     options:
       type === "select"

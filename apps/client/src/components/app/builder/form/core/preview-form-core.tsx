@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 
 import { usePreviewFormCore } from "./use-preview-form-core";
-import { Builder } from "./schema-core";
+import { BuilderFormDBs, BuilderFields } from "./schema-core";
 
 const ItemActiveHover = ({
   children,
@@ -17,8 +17,14 @@ const ItemActiveHover = ({
   );
 };
 
-export const PreviewFormCore = ({ fields }: { fields: Builder[] }) => {
-  const { form } = usePreviewFormCore(fields);
+export const PreviewFormCore = ({
+  fields,
+  formDBs,
+}: {
+  fields: BuilderFields[];
+  formDBs: BuilderFormDBs[];
+}) => {
+  const { form } = usePreviewFormCore(fields, formDBs);
 
   if (!fields.length) return <></>;
 
@@ -40,6 +46,18 @@ export const PreviewFormCore = ({ fields }: { fields: Builder[] }) => {
                 children={(field) => (
                   <ItemActiveHover isHover={item.isHover}>
                     <field.CheckboxField label={item.label} />
+                  </ItemActiveHover>
+                )}
+              />
+            );
+          case "switch":
+            return (
+              <form.AppField
+                key={item.id}
+                name={item.id}
+                children={(field) => (
+                  <ItemActiveHover isHover={item.isHover}>
+                    <field.SwitchField label={item.label} />
                   </ItemActiveHover>
                 )}
               />
@@ -102,7 +120,7 @@ export const PreviewFormCore = ({ fields }: { fields: Builder[] }) => {
                 children={(field) => (
                   <ItemActiveHover isHover={item.isHover}>
                     <field.OTPField
-                      maxLength={item.maxLength || 6}
+                      maxLength={Number(item.maxLength) || 6}
                       placeholder={item.placeholder}
                       label={item.label}
                     />

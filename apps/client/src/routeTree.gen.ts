@@ -15,6 +15,8 @@ import { Route as demoRouteRouteImport } from './routes/(demo)/route'
 import { Route as authRouteRouteImport } from './routes/(auth)/route'
 import { Route as appRouteRouteImport } from './routes/(app)/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as publicForm_uuidRouteRouteImport } from './routes/(public)/$form_uuid/route'
+import { Route as publicForm_uuidIndexRouteImport } from './routes/(public)/$form_uuid/index'
 import { Route as authLogoutIndexRouteImport } from './routes/(auth)/logout/index'
 import { Route as authLoginIndexRouteImport } from './routes/(auth)/login/index'
 import { Route as appDashboardIndexRouteImport } from './routes/(app)/dashboard/index'
@@ -48,6 +50,16 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const publicForm_uuidRouteRoute = publicForm_uuidRouteRouteImport.update({
+  id: '/(public)/$form_uuid',
+  path: '/$form_uuid',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const publicForm_uuidIndexRoute = publicForm_uuidIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => publicForm_uuidRouteRoute,
 } as any)
 const authLogoutIndexRoute = authLogoutIndexRouteImport.update({
   id: '/logout/',
@@ -129,12 +141,14 @@ const ApiUsersUserIdServerRoute = ApiUsersUserIdServerRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof demoRouteRouteWithChildren
+  '/$form_uuid': typeof publicForm_uuidRouteRouteWithChildren
   '/dashboard/forms': typeof appDashboardFormsRouteRouteWithChildren
   '/playground/forms': typeof demoPlaygroundFormsRouteRouteWithChildren
   '/playground/query': typeof demoPlaygroundQueryRouteRouteWithChildren
   '/dashboard': typeof appDashboardIndexRoute
   '/login': typeof authLoginIndexRoute
   '/logout': typeof authLogoutIndexRoute
+  '/$form_uuid/': typeof publicForm_uuidIndexRoute
   '/dashboard/forms/$form_uuid': typeof appDashboardFormsForm_uuidRouteRouteWithChildren
   '/dashboard/forms/': typeof appDashboardFormsIndexRoute
   '/playground/forms/': typeof demoPlaygroundFormsIndexRoute
@@ -147,6 +161,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof appDashboardIndexRoute
   '/login': typeof authLoginIndexRoute
   '/logout': typeof authLogoutIndexRoute
+  '/$form_uuid': typeof publicForm_uuidIndexRoute
   '/dashboard/forms/$form_uuid': typeof appDashboardFormsForm_uuidRouteRouteWithChildren
   '/dashboard/forms': typeof appDashboardFormsIndexRoute
   '/playground/forms': typeof demoPlaygroundFormsIndexRoute
@@ -160,12 +175,14 @@ export interface FileRoutesById {
   '/(app)': typeof appRouteRouteWithChildren
   '/(auth)': typeof authRouteRouteWithChildren
   '/(demo)': typeof demoRouteRouteWithChildren
+  '/(public)/$form_uuid': typeof publicForm_uuidRouteRouteWithChildren
   '/(app)/dashboard/forms': typeof appDashboardFormsRouteRouteWithChildren
   '/(demo)/playground/forms': typeof demoPlaygroundFormsRouteRouteWithChildren
   '/(demo)/playground/query': typeof demoPlaygroundQueryRouteRouteWithChildren
   '/(app)/dashboard/': typeof appDashboardIndexRoute
   '/(auth)/login/': typeof authLoginIndexRoute
   '/(auth)/logout/': typeof authLogoutIndexRoute
+  '/(public)/$form_uuid/': typeof publicForm_uuidIndexRoute
   '/(app)/dashboard/forms/$form_uuid': typeof appDashboardFormsForm_uuidRouteRouteWithChildren
   '/(app)/dashboard/forms/': typeof appDashboardFormsIndexRoute
   '/(demo)/playground/forms/': typeof demoPlaygroundFormsIndexRoute
@@ -177,12 +194,14 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/$form_uuid'
     | '/dashboard/forms'
     | '/playground/forms'
     | '/playground/query'
     | '/dashboard'
     | '/login'
     | '/logout'
+    | '/$form_uuid/'
     | '/dashboard/forms/$form_uuid'
     | '/dashboard/forms/'
     | '/playground/forms/'
@@ -195,6 +214,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/login'
     | '/logout'
+    | '/$form_uuid'
     | '/dashboard/forms/$form_uuid'
     | '/dashboard/forms'
     | '/playground/forms'
@@ -207,12 +227,14 @@ export interface FileRouteTypes {
     | '/(app)'
     | '/(auth)'
     | '/(demo)'
+    | '/(public)/$form_uuid'
     | '/(app)/dashboard/forms'
     | '/(demo)/playground/forms'
     | '/(demo)/playground/query'
     | '/(app)/dashboard/'
     | '/(auth)/login/'
     | '/(auth)/logout/'
+    | '/(public)/$form_uuid/'
     | '/(app)/dashboard/forms/$form_uuid'
     | '/(app)/dashboard/forms/'
     | '/(demo)/playground/forms/'
@@ -226,6 +248,7 @@ export interface RootRouteChildren {
   appRouteRoute: typeof appRouteRouteWithChildren
   authRouteRoute: typeof authRouteRouteWithChildren
   demoRouteRoute: typeof demoRouteRouteWithChildren
+  publicForm_uuidRouteRoute: typeof publicForm_uuidRouteRouteWithChildren
 }
 export interface FileServerRoutesByFullPath {
   '/api/users': typeof ApiUsersServerRouteWithChildren
@@ -281,6 +304,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/(public)/$form_uuid': {
+      id: '/(public)/$form_uuid'
+      path: '/$form_uuid'
+      fullPath: '/$form_uuid'
+      preLoaderRoute: typeof publicForm_uuidRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(public)/$form_uuid/': {
+      id: '/(public)/$form_uuid/'
+      path: '/'
+      fullPath: '/$form_uuid/'
+      preLoaderRoute: typeof publicForm_uuidIndexRouteImport
+      parentRoute: typeof publicForm_uuidRouteRoute
     }
     '/(auth)/logout/': {
       id: '/(auth)/logout/'
@@ -492,6 +529,17 @@ const demoRouteRouteWithChildren = demoRouteRoute._addFileChildren(
   demoRouteRouteChildren,
 )
 
+interface publicForm_uuidRouteRouteChildren {
+  publicForm_uuidIndexRoute: typeof publicForm_uuidIndexRoute
+}
+
+const publicForm_uuidRouteRouteChildren: publicForm_uuidRouteRouteChildren = {
+  publicForm_uuidIndexRoute: publicForm_uuidIndexRoute,
+}
+
+const publicForm_uuidRouteRouteWithChildren =
+  publicForm_uuidRouteRoute._addFileChildren(publicForm_uuidRouteRouteChildren)
+
 interface ApiUsersServerRouteChildren {
   ApiUsersUserIdServerRoute: typeof ApiUsersUserIdServerRoute
 }
@@ -509,6 +557,7 @@ const rootRouteChildren: RootRouteChildren = {
   appRouteRoute: appRouteRouteWithChildren,
   authRouteRoute: authRouteRouteWithChildren,
   demoRouteRoute: demoRouteRouteWithChildren,
+  publicForm_uuidRouteRoute: publicForm_uuidRouteRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

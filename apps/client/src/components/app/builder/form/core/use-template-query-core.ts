@@ -1,13 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { Builder } from "./schema-core";
+import { BuilderFields } from "./schema-core";
 import { useDataStore } from "./use-data-store";
 import { processQuery } from "./template-process-core";
 
 const queryKey = ["template"];
 
 export const useTemplateQuery = (
-  templateOutput: (fields: Builder[]) => Promise<{ result: string }>,
+  templateOutput: (fields: BuilderFields[]) => Promise<{ result: string }>,
   key: string
 ) => {
   const fields = useDataStore((state) => state.fields);

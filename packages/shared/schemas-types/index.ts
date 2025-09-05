@@ -17,6 +17,12 @@ export type * from "./tbl-organization";
 // FORM
 export * from "./tbl-form";
 export type * from "./tbl-form";
+export type * from "../db-tables/tbl-form";
+export * from "./tbl-form-response";
+export type * from "./tbl-form-response";
+export type * from "../db-tables/tbl-form";
+export * from "./tbl-form-public";
+export type * from "./tbl-form-public";
 
 // MISC
 export * from "./misc";

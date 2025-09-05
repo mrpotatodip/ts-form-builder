@@ -1,13 +1,17 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
-import { Builder } from "./schema-core";
+import { BuilderFields, BuilderFormDBs } from "./schema-core";
 
 type BearStore = {
-  fields: Builder[];
-  initializeData: (fields: Builder[]) => void;
-  insertData: (item: Builder) => void;
-  updateBulkData: (fields: Builder[], isDirty?: boolean) => void;
+  fields: BuilderFields[];
+  formDBs: BuilderFormDBs[];
+  initializeData: (
+    fields: BuilderFields[],
+    formDBs: BuilderFormDBs[] | undefined
+  ) => void;
+  insertData: (item: BuilderFields) => void;
+  updateBulkData: (fields: BuilderFields[], isDirty?: boolean) => void;
   deleteData: (id: string) => void;
   cleanUpData: () => void;
   isDirty: boolean;
@@ -17,7 +21,9 @@ export const useDataStore = create<BearStore>()(
   persist(
     (set, get) => ({
       fields: [],
-      initializeData: (fields) => set({ fields, isDirty: false }),
+      formDBs: [],
+      initializeData: (fields, formDBs) =>
+        set({ fields, formDBs, isDirty: false }),
       insertData: (item) =>
         set({ fields: [...get().fields, item], isDirty: true }),
       updateBulkData: (fields, isDirty = true) => {

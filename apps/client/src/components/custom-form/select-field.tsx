@@ -50,7 +50,7 @@ export const SelectField = ({
           <SelectTrigger
             id={field.name}
             onBlur={field.handleBlur}
-            className={`w-full m-0 uppercase tracking-wider ${className}`}
+            className={`w-full m-0 tracking-wider ${className}`}
           >
             <SelectValue placeholder={placeholder}>
               {/* {capitalize(field.state.value) || placeholder} */}
@@ -63,7 +63,7 @@ export const SelectField = ({
               <SelectItem
                 key={index}
                 value={option.value}
-                className="uppercase tracking-wider"
+                className="tracking-wider"
               >
                 {option.label}
               </SelectItem>

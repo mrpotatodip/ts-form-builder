@@ -4,11 +4,7 @@ import { ModuleInformation } from "~/components/app/shared-components/module-inf
 import { HeaderActions } from "./header-actions";
 
 export const Header = () => {
-  const {
-    result: { data },
-    fields,
-    isDirty,
-  } = useQuery_Detail_Forms();
+  const { data, fields, isDirty } = useQuery_Detail_Forms();
 
   if (!data.length) return <div>empty!</div>;
   const [{ name, description }] = data;

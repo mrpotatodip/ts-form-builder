@@ -47,3 +47,7 @@ content-type: application/json
     "description": "A new form created",
     "json": {}
 }
+
+### GET FORMS PUBLIC DETAIL
+GET http://localhost:8787/forms-public/a1e89556-3ba3-4fcc-a78e-12b0c8c9e3d
+

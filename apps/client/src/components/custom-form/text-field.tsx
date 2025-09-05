@@ -9,11 +9,14 @@ import { FieldLabel } from "./field-label";
 type TextFieldProps = {
   variance?: "default" | "muted";
   label?: string;
+  labelClassName?: string;
+  helperText?: string;
 } & React.InputHTMLAttributes<HTMLInputElement>;
 
 export const TextField = ({
   variance = "default",
   label,
+  helperText,
   ...inputProps
 }: TextFieldProps) => {
   const field = useFieldContext<string>();
@@ -36,6 +39,13 @@ export const TextField = ({
           {...inputProps}
         />
       </div>
+      {helperText ? (
+        <div>
+          <p className="text-muted-foreground/60 text-xs tracking-wider mt-2">
+            {helperText}
+          </p>
+        </div>
+      ) : null}
       <FieldErrors meta={field.state.meta} />
     </div>
   );

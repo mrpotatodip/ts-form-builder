@@ -1,4 +1,9 @@
-import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
+import {
+  createFileRoute,
+  Outlet,
+  redirect,
+  useLoaderData,
+} from "@tanstack/react-router";
 
 import { AppSidebarDashboard } from "@/components/app-sidebar-dashboard";
 import {

@@ -1,17 +1,33 @@
 import { createSelectSchema } from "drizzle-zod";
 import { formatError, z } from "zod";
 
-import { DBTables } from "../db-tables";
+import { DBTables, DBTableVars } from "../db-tables";
 
 const { tbl_form } = DBTables;
+const { FormStatus, FormStatusEnum, FormAccess, FormAccessEnum } = DBTableVars;
 
-export const FormSchema = createSelectSchema(tbl_form);
+export const FormStatusOptions = FormStatus.map((item) => item);
+export const FormAccessOptions = FormAccess.map((item) => item);
+
+export const FormSchema = createSelectSchema(tbl_form).extend({
+  createdAt: z.string(),
+  status: z.enum(FormStatusEnum),
+  access: z.enum(FormAccessEnum),
+});
 
 export const FormCreateSchema = FormSchema.omit({
   id: true,
   uuid: true,
   createdAt: true,
+}).extend({
+  name: z.string().min(1, "This field is required."),
+  description: z.string().min(1, "This field is required."),
+  status: z.enum(FormStatusEnum),
+  limit: z.number("This field must be a number."),
+  access: z.enum(FormAccessEnum),
+  json: z.string(),
 });
+
 export const FormUpdateSchema = FormSchema.omit({
   id: true,
   uuid: true,
@@ -20,6 +36,9 @@ export const FormUpdateSchema = FormSchema.omit({
 }).extend({
   name: z.string().min(1, "This field is required."),
   description: z.string().min(1, "This field is required."),
+  status: z.enum(FormStatusEnum),
+  limit: z.number("This field must be a number."),
+  access: z.enum(FormAccessEnum),
   json: z.string(),
 });
 
@@ -45,9 +64,34 @@ export const FormQuerySchema = FormSchema.pick({
   description: z.string().optional(),
 });
 
-export type Form = typeof tbl_form.$inferSelect;
+export type Form = z.infer<typeof FormSchema>;
 export type FormCreate = z.infer<typeof FormCreateSchema>;
 export type FormUpdate = z.infer<typeof FormUpdateSchema>;
 export type FormListParam = z.infer<typeof FormListParamSchema>;
 export type FormDetailParam = z.infer<typeof FormDetailParamSchema>;
 export type FormQuery = z.infer<typeof FormQuerySchema>;
+
+export const FormInitValues = (party_uuid: string): FormCreate => {
+  const randomString = (
+    len: number = 4,
+    chars: string = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+  ) => {
+    let result = "";
+    for (let i = 0; i < len; i++) {
+      result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return result;
+  };
+
+  const identifier = `FORM-${randomString()}`;
+
+  return {
+    party_uuid,
+    name: identifier,
+    description: identifier,
+    status: "draft",
+    limit: 10,
+    access: "0",
+    json: JSON.stringify({ fields: [] }),
+  };
+};

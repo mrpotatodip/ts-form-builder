@@ -6,11 +6,11 @@ import {
 } from "lucide-react";
 
 import { Button } from "~/components/ui/button";
-import { Builder, BuilderFieldsLogic } from "./schema-core";
+import { BuilderFields, BuilderFieldsLogic } from "./schema-core";
 import { useDataStore } from "../core/use-data-store";
 import { useSettingsFormCore } from "./use-settings-form-core";
 
-export const SettingsFormCore = ({ fields }: { fields: Builder[] }) => {
+export const SettingsFormCore = ({ fields }: { fields: BuilderFields[] }) => {
   const deleteData = useDataStore((state) => state.deleteData);
   const updateBulkData = useDataStore((state) => state.updateBulkData);
 
@@ -219,11 +219,11 @@ export const SettingsFormCore = ({ fields }: { fields: Builder[] }) => {
 
                         {isMinMaxLength && (
                           <div className="flex gap-4">
-                            <div className="flex-1/8">
+                            <div className="flex-1/3">
                               <form.AppField
                                 name={`fields[${index}].minLength`}
                                 children={(field) => (
-                                  <field.TextField label="MIN" />
+                                  <field.TextField type="number" label="MIN" />
                                 )}
                               />
                             </div>
@@ -240,11 +240,11 @@ export const SettingsFormCore = ({ fields }: { fields: Builder[] }) => {
 
                         {isMinMaxLength && (
                           <div className="flex gap-4">
-                            <div className="flex-1/8">
+                            <div className="flex-1/3">
                               <form.AppField
                                 name={`fields[${index}].maxLength`}
                                 children={(field) => (
-                                  <field.TextField label="MAX" />
+                                  <field.TextField type="number" label="MAX" />
                                 )}
                               />
                             </div>
@@ -261,11 +261,11 @@ export const SettingsFormCore = ({ fields }: { fields: Builder[] }) => {
 
                         {isMinMax && (
                           <div className="flex gap-4">
-                            <div className="flex-1/8">
+                            <div className="flex-1/3">
                               <form.AppField
                                 name={`fields[${index}].min`}
                                 children={(field) => (
-                                  <field.TextField label="MIN" />
+                                  <field.TextField type="number" label="MIN" />
                                 )}
                               />
                             </div>
@@ -282,11 +282,11 @@ export const SettingsFormCore = ({ fields }: { fields: Builder[] }) => {
 
                         {isMinMax && (
                           <div className="flex gap-4">
-                            <div className="flex-1/8">
+                            <div className="flex-1/3">
                               <form.AppField
                                 name={`fields[${index}].max`}
                                 children={(field) => (
-                                  <field.TextField label="MAX" />
+                                  <field.TextField type="number" label="MAX" />
                                 )}
                               />
                             </div>

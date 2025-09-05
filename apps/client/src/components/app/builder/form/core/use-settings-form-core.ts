@@ -2,21 +2,25 @@ import { useCallback, useEffect } from "react";
 
 import { useAppForm } from "~/components/custom-form";
 import { useDataStore } from "../core/use-data-store";
-import { Builder, BuilderFields, BuilderDefaults } from "./schema-core";
+import {
+  BuilderFields,
+  BuilderFieldsForms,
+  BuilderFieldsDefaults,
+} from "./schema-core";
 
-export const useSettingsFormCore = (fields: Builder[]) => {
+export const useSettingsFormCore = (fields: BuilderFields[]) => {
   const updateBulkData = useDataStore((state) => state.updateBulkData);
 
-  const onChange = useCallback((items: Builder[]) => {
+  const onChange = useCallback((items: BuilderFields[]) => {
     updateBulkData(items);
   }, []);
 
   const form = useAppForm({
     defaultValues: {
-      fields: [BuilderDefaults],
+      fields: [BuilderFieldsDefaults],
     },
     validators: {
-      onChange: BuilderFields,
+      onChange: BuilderFieldsForms,
     },
     // onSubmit: ({ value }) => {
     //   mutate([value]);
@@ -24,7 +28,6 @@ export const useSettingsFormCore = (fields: Builder[]) => {
     listeners: {
       onChange: ({ formApi, fieldApi }) => {
         onChange(formApi.state.values.fields!);
-        console.log(formApi.state.values.fields!);
       },
     },
   });

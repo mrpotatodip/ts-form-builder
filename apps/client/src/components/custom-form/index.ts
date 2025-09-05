@@ -6,6 +6,7 @@ import { TextField as TextFieldOui } from "./text-field-oui";
 import { TimeField } from "./time-field";
 import { TextAreaField } from "./textarea-field";
 import { CheckboxField } from "./checkbox-field";
+import { SwitchField } from "./switch-field";
 import { SelectField } from "./select-field";
 import { DatePickerField } from "./date-picker-field";
 import { OTPField } from "./otp-field";
@@ -22,6 +23,7 @@ export const { useAppForm } = createFormHook({
     TimeField,
     TextAreaField,
     CheckboxField,
+    SwitchField,
     SelectField,
     DatePickerField,
     OTPField,

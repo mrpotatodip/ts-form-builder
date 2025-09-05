@@ -1,12 +1,12 @@
-import { Builder } from "./schema-core";
+import { BuilderFields } from "./schema-core";
 
-let FieldsArray: Builder[] = [];
+let FieldsArray: BuilderFields[] = [];
 
 export const processMutation = async ({
   data,
   action,
 }: {
-  data: Builder[] | [];
+  data: BuilderFields[] | [];
   action?: "insert" | "update" | "delete";
 }) => {
   if (action === "insert") {

@@ -4,7 +4,7 @@ import { Link } from "@tanstack/react-router";
 import { Form } from "shared";
 
 import { Button } from "~/components/ui/button";
-import { Builder } from "~/components/app/builder/form/core/schema-core";
+import { BuilderFields } from "~/components/app/builder/form/core/schema-core";
 import { useMutateData } from "~/services/hooks/use-forms";
 
 export const HeaderActions = ({
@@ -13,7 +13,7 @@ export const HeaderActions = ({
   isDirty,
 }: {
   data: Form[];
-  fields: Builder[];
+  fields: BuilderFields[];
   isDirty: boolean;
 }) => {
   const { mutateUpdate } = useMutateData();
@@ -34,15 +34,6 @@ export const HeaderActions = ({
         className="text-xs text-primary uppercase tracking-widest px-2 py-1 hover:text-primary/80 hover:underline hover:underline-offset-4"
       >
         Back
-      </Link>
-
-      <Link
-        to="/dashboard/forms/$form_uuid/edit"
-        params={{ form_uuid: uuid }}
-        search={{ modal: "update" }}
-        className="text-xs text-primary uppercase tracking-widest px-2 py-1 hover:text-primary/80 hover:underline hover:underline-offset-4"
-      >
-        Edit Info.
       </Link>
 
       <Link

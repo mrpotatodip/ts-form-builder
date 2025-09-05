@@ -5,6 +5,7 @@ import { PreviewFormCore } from "../core/preview-form-core";
 
 export const DisplayPreviewForm = () => {
   const fields = useDataStore((state) => state.fields);
+  const formDBs = useDataStore((state) => state.formDBs);
 
   if (!fields.length)
     return (
@@ -15,5 +16,5 @@ export const DisplayPreviewForm = () => {
       </div>
     );
 
-  return <PreviewFormCore fields={fields} />;
+  return <PreviewFormCore fields={fields} formDBs={formDBs} />;
 };

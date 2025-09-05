@@ -22,6 +22,7 @@ import {
 } from "~/services/providers/theme-provider";
 import { SSRPageLoader } from "~/components/custom-ui/ssr-page-loader/ssr-page";
 import { fetchQuery_Details } from "~/services/hooks/use-ba-users";
+import { Toaster } from "@/components/ui/sonner";
 
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient;
@@ -35,6 +36,7 @@ export const Route = createRootRouteWithContext<{
       userState: [],
       organizationsState: [],
       forms: [],
+      collectionX: null,
     };
   },
   head: () => ({
@@ -101,6 +103,7 @@ function RootComponent() {
             }}
           >
             <Outlet />
+            <Toaster position="top-center" />
           </SSRPageLoader>
         </ThemeProvider>
       </PosthogProvider>

@@ -6,7 +6,7 @@ import parserTypescript from "prettier/plugins/typescript";
 import parserHtml from "prettier/plugins/html";
 import parserCss from "prettier/plugins/postcss";
 
-import { Builder } from "../core/schema-core";
+import { BuilderFields } from "../core/schema-core";
 
 const template = `
 import { useForm } from "./this-is-your-form-hook"
@@ -29,6 +29,13 @@ export const Form = () => {
         <form.AppField
           name="{{name}}"
           children={(field) => <field.CheckboxField label="{{label}}" />}
+        />
+
+        {{else if (isField type "switch")}}
+        
+        <form.AppField
+          name="{{name}}"
+          children={(field) => <field.SwitchField label="{{label}}" />}
         />
         
         {{else if (isField type "select")}}
@@ -113,7 +120,7 @@ const utilPrettify = async (output: string) => {
   return formatted;
 };
 
-export const output = async (fields: Builder[]) => {
+export const output = async (fields: BuilderFields[]) => {
   const compiled = Handlebars.compile(template);
   const compiledOutput = compiled({ fields });
   const result = await utilPrettify(compiledOutput);

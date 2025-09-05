@@ -20,8 +20,8 @@ export const CreateFormModal = () => {
     <ModuleDialog
       open={open}
       onOpenChange={onOpenChange}
-      title="New Form"
-      description="Create a form by adding first the details like form name and description."
+      title="Create New Form"
+      description="Please continue and create your form."
     >
       <div className="max-w-xl">
         <CreateForm />

@@ -13,15 +13,15 @@ export const CreateForm = () => {
           form.handleSubmit();
         }}
       >
-        <form.AppField
+        {/* <form.AppField
           name="name"
           children={(field) => <field.TextField label="Name" />}
-        />
+        /> */}
 
-        <form.AppField
+        {/* <form.AppField
           name="description"
           children={(field) => <field.TextField label="Description" />}
-        />
+        /> */}
 
         {/* <form.AppField
           name="json"
@@ -35,7 +35,7 @@ export const CreateForm = () => {
 
         <form.AppForm>
           <form.SubmitButton isSubmitting={isSubmitting}>
-            {isSubmitting ? "Saving ..." : "Save"}
+            {isSubmitting ? "Creating ..." : "Continue"}
           </form.SubmitButton>
         </form.AppForm>
       </form>

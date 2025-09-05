@@ -21,7 +21,7 @@ export const CheckboxField = ({ label, ...inputProps }: CheckboxFieldProps) => {
             field.handleChange(checked === true);
           }}
           onBlur={field.handleBlur}
-          className={inputProps.className}
+          className={`${inputProps.className} border-input`}
         />
         <div className="grid gap-1.5 leading-none">
           <FieldLabel htmlFor={field.name} label={label} />

@@ -9,7 +9,7 @@ export const FieldLabel = ({ htmlFor, label }: FieldLabelProps) => {
   if (!label) return null;
 
   return (
-    <Label className="text-xs tracking-wider" htmlFor={htmlFor}>
+    <Label className={`text-xs tracking-wider`} htmlFor={htmlFor}>
       {label}
     </Label>
   );

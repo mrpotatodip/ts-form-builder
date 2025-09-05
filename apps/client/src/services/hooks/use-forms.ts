@@ -1,4 +1,7 @@
-import { useParams, useRouteContext } from "@tanstack/react-router";
+import { useEffect } from "react";
+import { toast } from "sonner";
+
+import { useParams, useRouteContext, useRouter } from "@tanstack/react-router";
 import {
   useSuspenseQuery,
   useQueryClient,
@@ -10,9 +13,6 @@ import type { FormListParam, FormDetailParam, FormQuery } from "shared";
 import { queryOptionFactory as formsQOF } from "~/services/query-options/forms-query-options";
 import { rpcs as formsRPCs } from "~/services/rpcs/forms";
 import { useDataStore as useDataStoreCore } from "~/components/app/builder/form/core/use-data-store";
-import { Builder } from "~/components/app/builder/form/core/schema-core";
-
-import { useEffect } from "react";
 
 // ALL
 export const useQuery_All = (param: FormListParam, query: FormQuery = {}) => {
@@ -79,35 +79,40 @@ export const useQuery_Detail_Forms = () => {
     from: "/(app)/dashboard/forms/$form_uuid",
   });
   const [{ party_uuid }] = userState;
-  const param: FormDetailParam = { party_uuid, uuid };
+  const param = { party_uuid, uuid };
   const { result } = useQuery_Detail(param);
   const initializeData = useDataStoreCore((state) => state.initializeData);
   const fields = useDataStoreCore((state) => state.fields);
+  const formDBs = useDataStoreCore((state) => state.formDBs);
   const isDirty = useDataStoreCore((state) => state.isDirty);
 
-  const [{ json }] = result.data;
-  const fieldsData = json["fields"] as Builder[];
-
   useEffect(() => {
-    initializeData(fieldsData);
-  }, [JSON.stringify(fieldsData), initializeData]);
+    const form = result.data;
+    const fields = form[0].json["fields"];
+    initializeData(fields, form);
+  }, [JSON.stringify(result), initializeData]);
 
-  return { uuid, result, fields, isDirty };
+  return { uuid, data: result.data, fields, formDBs, isDirty };
 };
 
 export const useMutateData = () => {
   const queryClient = useQueryClient();
+  const router = useRouter();
   const { userState } = useRouteContext({ from: "/(app)" });
   const cleanUpData = useDataStoreCore((state) => state.cleanUpData);
 
   const mutateCreate = useMutation({
     mutationFn: formsRPCs.create,
     onSuccess: (data, variables) => {
-      console.log(data, " success");
+      toast("Successfully created a form");
     },
     onSettled: (response) => {
       if (response) {
-        const [{ party_uuid: party_uuid }] = response.data;
+        const [{ party_uuid, uuid: form_uuid }] = response.data;
+        router.navigate({
+          to: "/dashboard/forms/$form_uuid/edit",
+          params: { form_uuid },
+        });
         const param: FormListParam = { party_uuid };
         const query: FormQuery = {};
         const { queryKey } = formsQOF.all(param, query);
@@ -119,12 +124,12 @@ export const useMutateData = () => {
   const mutateUpdate = useMutation({
     mutationFn: formsRPCs.update,
     onSuccess: (data, variables) => {
-      console.log(data, " success");
+      toast("The form infos. has been update");
     },
     onSettled: (response) => {
       if (response) {
         const [{ party_uuid, uuid }] = response.data;
-        const param: FormDetailParam = { party_uuid, uuid };
+        const param = { party_uuid, uuid };
         const { queryKey } = formsQOF.detail(param);
         queryClient.invalidateQueries({ queryKey });
         cleanUpData();

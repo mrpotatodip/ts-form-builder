@@ -2,16 +2,14 @@ import { PreviewFormCore } from "~/components/app/builder/form/core/preview-form
 import { useQuery_Detail_Forms } from "~/services/hooks/use-forms";
 
 export const Preview = () => {
-  const {
-    result: { data },
-  } = useQuery_Detail_Forms();
+  const { data, formDBs } = useQuery_Detail_Forms();
 
   if (!data.length) return <div>empty!</div>;
   const [{ json }] = data;
 
   return (
     <div className="w-[450px] flex flex-col gap-2">
-      <PreviewFormCore fields={json["fields"]} />
+      <PreviewFormCore fields={json["fields"]} formDBs={formDBs} />
     </div>
   );
 };

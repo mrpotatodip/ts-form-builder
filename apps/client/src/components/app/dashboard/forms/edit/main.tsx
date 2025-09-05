@@ -1,5 +1,6 @@
-import { Preview } from "~/components/app/builder/form/preview";
+import { Preview } from "~/components/app/builder/form/preview-with-dbs";
 import { Header } from "./header";
+import { OtherInfos } from "./other-infos";
 
 export const Main = () => {
   return (
@@ -8,7 +9,9 @@ export const Main = () => {
         <Header />
       </div>
 
-      <Preview />
+      <Preview>
+        <OtherInfos />
+      </Preview>
     </div>
   );
 };

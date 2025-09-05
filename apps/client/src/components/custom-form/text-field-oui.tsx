@@ -19,9 +19,15 @@ import { FieldLabel } from "./field-label";
 type TextFieldProps = {
   type: string;
   label?: string;
+  helperText?: string;
 } & React.InputHTMLAttributes<HTMLInputElement>;
 
-export const TextField = ({ type, label, ...inputProps }: TextFieldProps) => {
+export const TextField = ({
+  type,
+  label,
+  helperText,
+  ...inputProps
+}: TextFieldProps) => {
   const field = useFieldContext<string>();
   const [passwordVisible, passwordVisibleSet] = useState<boolean>(false);
 
@@ -73,6 +79,11 @@ export const TextField = ({ type, label, ...inputProps }: TextFieldProps) => {
           </div>
         ) : null}
       </div>
+      {helperText ? (
+        <div>
+          <p className="text-muted-foreground text-xs mt-2">{helperText}</p>
+        </div>
+      ) : null}
       <FieldErrors meta={field.state.meta} />
     </div>
   );

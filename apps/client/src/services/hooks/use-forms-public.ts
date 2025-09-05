@@ -11,12 +11,12 @@ import {
 
 import type { FormPublicParam } from "shared";
 import { queryOptionFactory as formsQOF } from "~/services/query-options/forms-public-query-options";
-import { rpcs as formsRPCs } from "~/services/rpcs/forms-public";
+import { useDataStore as useDataStoreCore } from "~/components/app/builder/form/core/use-data-store";
 
 // DETAIL
 export const useQuery_Public = (param: FormPublicParam) => {
   const queryOptions = formsQOF.detail(param);
-  const { data: result, isLoading } = useSuspenseQuery(queryOptions);
+  const { data: result } = useSuspenseQuery(queryOptions);
   return { result };
 };
 
@@ -39,7 +39,10 @@ export const useQuery_Public_Forms = () => {
     from: "/(public)/$form_uuid",
   });
   const param = { uuid };
-  const { result } = useQuery_Public(param);
+  const {
+    result: { data },
+  } = useQuery_Public(param);
+  const formDBs = data;
 
-  return { uuid, data: result.data };
+  return { uuid, data, formDBs };
 };

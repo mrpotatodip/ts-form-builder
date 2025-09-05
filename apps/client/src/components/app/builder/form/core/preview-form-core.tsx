@@ -24,7 +24,10 @@ export const PreviewFormCore = ({
   fields: BuilderFields[];
   formDBs: BuilderFormDBs[];
 }) => {
-  const { form } = usePreviewFormCore(fields, formDBs);
+  const { form, isPendingCreate, isSuccessCreate } = usePreviewFormCore(
+    fields,
+    formDBs
+  );
 
   if (!fields.length) return <></>;
 
@@ -149,7 +152,14 @@ export const PreviewFormCore = ({
 
       {fields.length > 0 && (
         <form.AppForm>
-          <form.SubmitButton isSubmitting={false}>Save</form.SubmitButton>
+          <form.SubmitButton
+            className="m-2 mt-4"
+            isSubmitting={isPendingCreate}
+          >
+            <span className="tracking-widest">
+              {isPendingCreate ? "Submitting ..." : "Submit"}
+            </span>
+          </form.SubmitButton>
         </form.AppForm>
       )}
     </form>

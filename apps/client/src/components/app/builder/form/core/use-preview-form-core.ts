@@ -10,14 +10,13 @@ export const usePreviewFormCore = (
   fields: BuilderFields[],
   formDBs: BuilderFormDBs[]
 ) => {
-  const [{ name, description }] = formDBs;
   const { schema } = usePreviewSchemaCore(fields);
 
   const {
     mutateCreate: {
-      mutateAsync: createAsync,
-      isPending: isPendingUpdate,
-      isSuccess: isSuccessUpdate,
+      mutateAsync: createFormResponse,
+      isPending: isPendingCreate,
+      isSuccess: isSuccessCreate,
     },
   } = useMutateData();
 
@@ -31,18 +30,23 @@ export const usePreviewFormCore = (
       onChange: schema,
     },
     onSubmit: async ({ value }) => {
-      console.log(value);
-      console.log({ name, description });
-      const form_uuid = "a1e89556-3ba3-4fcc-a78e-12b0c8c9e3d1";
-      await createAsync({
-        param: { form_uuid },
-        json: {
-          form_uuid,
-          json: value,
-          jsonStr: JSON.stringify(value),
-          other: {},
-        },
-      });
+      // enable submit action when
+      // form is generated via database
+      if (formDBs.length) {
+        const [{ uuid: form_uuid }] = formDBs;
+        await createFormResponse({
+          param: { form_uuid },
+          json: {
+            form_uuid,
+            json: value,
+            jsonStr: JSON.stringify(value),
+            other: {},
+          },
+        });
+      } else {
+        // playground
+        console.log(value);
+      }
     },
     listeners: {
       onChange: ({ formApi, fieldApi }) => {
@@ -60,5 +64,7 @@ export const usePreviewFormCore = (
 
   return {
     form,
+    isPendingCreate,
+    isSuccessCreate,
   };
 };

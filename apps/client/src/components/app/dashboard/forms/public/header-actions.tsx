@@ -4,7 +4,7 @@ import { Form } from "shared";
 
 export const HeaderActions = ({ data }: { data: Form[] }) => {
   const [{ json, ...fieldsDBOther }] = data;
-  const { uuid } = fieldsDBOther;
+  const { uuid: form_uuid } = fieldsDBOther;
 
   return (
     <div className="flex items-center gap-6">
@@ -17,7 +17,7 @@ export const HeaderActions = ({ data }: { data: Form[] }) => {
 
       <Link
         to="/dashboard/forms/$form_uuid/edit"
-        params={{ form_uuid: uuid }}
+        params={{ form_uuid }}
         className="text-xs text-primary uppercase tracking-widest px-2 py-1 hover:text-primary/80 hover:underline hover:underline-offset-4"
       >
         Open Builder

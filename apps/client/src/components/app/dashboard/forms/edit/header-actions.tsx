@@ -1,34 +1,15 @@
-import { useCallback } from "react";
 import { Link } from "@tanstack/react-router";
 
-import { Form } from "shared";
+import { useCollectionsDetail as useCollectionsFormsDetail } from "~/services/collections/forms-collection";
 
-import { Button } from "~/components/ui/button";
-import { BuilderFields } from "~/components/app/builder/form/core/schema-core";
-import { useMutateData } from "~/services/hooks/use-forms";
-
-export const HeaderActions = ({
-  data,
-  fields,
-  isDirty,
-}: {
-  data: Form[];
-  fields: BuilderFields[];
-  isDirty: boolean;
-}) => {
-  const { mutateUpdate } = useMutateData();
-  const { mutate: update, isPending: isPendingUpdate } = mutateUpdate;
-  const [{ ...otherData }] = data;
-  const { party_uuid, uuid } = otherData;
-
-  const handleUpdate = useCallback(async () => {
-    const param = { party_uuid, uuid };
-    const json = { ...otherData, json: JSON.stringify({ fields }) };
-    await update({ param, json });
-  }, [fields, update, party_uuid, uuid, otherData]);
+export const HeaderActions = () => {
+  const { form_uuid, data } = useCollectionsFormsDetail();
+  const [{ status, access }] = data;
+  const isPublished = status === "published" || false;
+  const isPublic = access === "1" || false;
 
   return (
-    <div className="flex items-center gap-6 pr-10">
+    <div className="flex items-center gap-4 pr-10">
       <Link
         to="/dashboard/forms"
         className="text-xs text-primary uppercase tracking-widest px-2 py-1 hover:text-primary/80 hover:underline hover:underline-offset-4"
@@ -38,13 +19,28 @@ export const HeaderActions = ({
 
       <Link
         to="/dashboard/forms/$form_uuid/preview"
-        params={{ form_uuid: uuid }}
+        params={{ form_uuid }}
         className="text-xs text-primary uppercase tracking-widest px-2 py-1 hover:text-primary/80 hover:underline hover:underline-offset-4"
       >
         Preview
       </Link>
 
-      {!isDirty ? (
+      <h2 className="text-xs font-semibold text-primary uppercase tracking-widest">
+        {isPublic ? "Public" : "Private"}
+      </h2>
+
+      {isPublished ? (
+        <Link
+          to="/$form_uuid"
+          params={{ form_uuid }}
+          className="text-xs text-primary font-semibold uppercase tracking-widest px-2 py-1 hover:text-primary/80 hover:underline hover:underline-offset-4"
+          target="_blank"
+        >
+          LIVE URL
+        </Link>
+      ) : null}
+
+      {/* {!isDirty ? (
         <h2 className="text-xs font-semibold text-green-300 uppercase tracking-widest">
           Saved
         </h2>
@@ -52,12 +48,12 @@ export const HeaderActions = ({
         <Button
           size={"sm"}
           className="uppercase tracking-widest text-xs cursor-pointer"
-          onClick={handleUpdate}
-          disabled={isPendingUpdate}
+          onClick={handleUpdateAction}
         >
-          {isPendingUpdate ? "Saving ..." : "Save Changes"}
+          Save Changes
         </Button>
-      )}
+
+      )} */}
     </div>
   );
 };

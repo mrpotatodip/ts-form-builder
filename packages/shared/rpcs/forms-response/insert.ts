@@ -1,5 +1,3 @@
-import { eq } from "drizzle-orm";
-
 import type { DBNeonConnect } from "../..";
 
 import { tbl_form_response } from "../../db-tables/tbl-form-response";
@@ -11,7 +9,7 @@ import type {
 export const create = async (
   db: DBNeonConnect,
   param: FormResponseListParam,
-  json: FormResponseCreate
+  json: FormResponseCreate,
 ) => {
   const transactions = await db.transaction(async (tx) => {
     const form = await tx.insert(tbl_form_response).values(json).returning();
@@ -19,5 +17,6 @@ export const create = async (
       form,
     };
   });
+
   return [transactions.form[0]];
 };

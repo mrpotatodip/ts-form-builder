@@ -7,6 +7,7 @@ import {
   FormResponseListParamSchema,
   FormResponseDetailParamSchema,
 } from "../../schemas-types/tbl-form-response";
+import { createPostFormsResponseMiddleware } from "../middlewares/forms-response-middleware";
 import { list, detail } from "./select";
 import { create } from "./insert";
 
@@ -24,7 +25,7 @@ export const createRPC = () => {
         } catch (error) {
           return c.json({ data: [], error: "Error" }, 200);
         }
-      }
+      },
     )
     .get(
       "/:form_uuid/detail/:uuid",
@@ -38,12 +39,13 @@ export const createRPC = () => {
         } catch (error) {
           return c.json({ data: [], error: "Error" }, 200);
         }
-      }
+      },
     )
     .post(
       "/:form_uuid",
       zValidator("param", FormResponseListParamSchema),
       zValidator("json", FormResponseCreateSchema),
+      createPostFormsResponseMiddleware,
       async (c) => {
         try {
           const db = DBNeonConnect(c.env.DATABASE_URL);
@@ -52,10 +54,9 @@ export const createRPC = () => {
           const data = await create(db, param, json);
           return c.json({ data, error: null }, 201);
         } catch (error) {
-          console.log(error, " error");
-          return c.json({ data: [], error: "Error" }, 201);
+          return c.json({ data: [], error: "Failed to create response" }, 500);
         }
-      }
+      },
     );
 
   const app = new Hono().route("/forms-response", usersApp);

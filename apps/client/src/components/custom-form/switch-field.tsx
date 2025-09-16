@@ -8,9 +8,14 @@ import { FieldLabel } from "./field-label";
 
 type SwitchFieldProps = {
   label: string;
+  description?: string;
 } & React.InputHTMLAttributes<HTMLInputElement>;
 
-export const SwitchField = ({ label, ...inputProps }: SwitchFieldProps) => {
+export const SwitchField = ({
+  label,
+  description,
+  ...inputProps
+}: SwitchFieldProps) => {
   const field = useFieldContext<boolean>();
 
   return (
@@ -23,12 +28,14 @@ export const SwitchField = ({ label, ...inputProps }: SwitchFieldProps) => {
         />
         <div className="grid grow gap-2">
           <FieldLabel htmlFor={field.name} label={label} />
-          <p
-            id={`${field.name}-description`}
-            className="text-muted-foreground text-xs"
-          >
-            A short description goes here.
-          </p>
+          {description && (
+            <p
+              id={`${field.name}-description`}
+              className="text-muted-foreground/80 text-xs"
+            >
+              {description}
+            </p>
+          )}
         </div>
       </div>
       {/* <div className="flex items-center space-x-2">

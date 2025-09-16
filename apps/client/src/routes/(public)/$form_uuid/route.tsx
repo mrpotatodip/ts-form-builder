@@ -5,7 +5,7 @@ import { useEnsureQueryData_Public as useEQD_Public_forms } from "~/services/hoo
 export const Route = createFileRoute("/(public)/$form_uuid")({
   component: RouteComponent,
   loader: async ({ context, params }) => {
-    const { queryClient, userState } = context;
+    const { queryClient } = context;
     const { form_uuid: uuid } = params;
     const param = { uuid };
     await Promise.all([useEQD_Public_forms(queryClient, param)]);

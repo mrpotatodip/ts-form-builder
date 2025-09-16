@@ -11,7 +11,7 @@ export const Route = createFileRoute("/(app)/dashboard/forms/")({
   component: RouteComponent,
   loader: async ({ context }) => {
     const { queryClient, userState } = context;
-    const [{ party_uuid }] = userState;
+    const [{ party_uuid }] = userState!;
     await Promise.all([useEQD_All_forms(queryClient, { party_uuid })]);
   },
   validateSearch: RouteListsQuerySchema,

@@ -8,7 +8,7 @@ import { BuilderFields, BuilderFormDBs } from "./schema-core";
 
 export const usePreviewFormCore = (
   fields: BuilderFields[],
-  formDBs: BuilderFormDBs[]
+  form_uuid?: string,
 ) => {
   const { schema } = usePreviewSchemaCore(fields);
 
@@ -21,7 +21,7 @@ export const usePreviewFormCore = (
   } = useMutateData();
 
   const defaultValues: z.infer<typeof schema> = Object.fromEntries(
-    fields.map((item) => [item.id, item.placeholder ?? ""])
+    fields.map((item) => [item.id, item.placeholder ?? ""]),
   );
 
   const form = useAppForm({
@@ -30,16 +30,14 @@ export const usePreviewFormCore = (
       onChange: schema,
     },
     onSubmit: async ({ value }) => {
-      // enable submit action when
-      // form is generated via database
-      if (formDBs.length) {
-        const [{ uuid: form_uuid }] = formDBs;
+      // database
+      if (form_uuid) {
         await createFormResponse({
           param: { form_uuid },
           json: {
             form_uuid,
             json: value,
-            jsonStr: JSON.stringify(value),
+            json_str: JSON.stringify(value),
             other: {},
           },
         });

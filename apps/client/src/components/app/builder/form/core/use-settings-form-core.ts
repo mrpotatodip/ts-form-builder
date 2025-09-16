@@ -1,7 +1,6 @@
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
 
 import { useAppForm } from "~/components/custom-form";
-import { useDataStore } from "../core/use-data-store";
 import {
   BuilderFields,
   BuilderFieldsForms,
@@ -9,12 +8,6 @@ import {
 } from "./schema-core";
 
 export const useSettingsFormCore = (fields: BuilderFields[]) => {
-  const updateBulkData = useDataStore((state) => state.updateBulkData);
-
-  const onChange = useCallback((items: BuilderFields[]) => {
-    updateBulkData(items);
-  }, []);
-
   const form = useAppForm({
     defaultValues: {
       fields: [BuilderFieldsDefaults],
@@ -25,11 +18,6 @@ export const useSettingsFormCore = (fields: BuilderFields[]) => {
     // onSubmit: ({ value }) => {
     //   mutate([value]);
     // },
-    listeners: {
-      onChange: ({ formApi, fieldApi }) => {
-        onChange(formApi.state.values.fields!);
-      },
-    },
   });
 
   useEffect(() => {

@@ -1,14 +1,14 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import { Builder } from "~/components/app/builder/form/builder";
-import { BuilderSettings } from "~/components/app/builder/form/builder-settings";
-import { BuilderPreview } from "~/components/app/builder/form/builder-preview";
+import { BuilderViaDB } from "~/components/app/builder/form/builder-via-db";
+import { BuilderSettingsViaDB } from "~/components/app/builder/form/builder-settings-via-db";
+import { BuilderPreviewViaDB } from "~/components/app/builder/form/builder-preview-via-db";
 import { CodeTemplateFormZodSchema } from "~/components/app/builder/form/code-template-form-zod-schema";
 import { CodeTemplateFormCode } from "~/components/app/builder/form/code-template-form-code";
 import { CodeTemplateFormHook } from "~/components/app/builder/form/code-template-form-hook";
 import { ReactNode } from "react";
 
-export const Preview = ({ children }: { children: ReactNode }) => {
+export const PreviewViaDB = ({ children }: { children: ReactNode }) => {
   return (
     <Tabs defaultValue="form-builder" className="w-full p-4">
       <TabsList className="mb-4 bg-accent/40">
@@ -41,7 +41,7 @@ export const Preview = ({ children }: { children: ReactNode }) => {
       <TabsContent value="form-builder">
         <div className="flex gap-10">
           <div className="w-sm py-2">
-            <Builder />
+            <BuilderViaDB />
           </div>
 
           <div className="w-sm">
@@ -62,7 +62,7 @@ export const Preview = ({ children }: { children: ReactNode }) => {
               </TabsList>
 
               <TabsContent value="builder-settings-tab">
-                <BuilderSettings />
+                <BuilderSettingsViaDB />
               </TabsContent>
 
               <TabsContent value="builder-other-infos-tab">
@@ -72,7 +72,7 @@ export const Preview = ({ children }: { children: ReactNode }) => {
           </div>
 
           <div className="w-md py-2">
-            <BuilderPreview />
+            <BuilderPreviewViaDB />
           </div>
         </div>
       </TabsContent>

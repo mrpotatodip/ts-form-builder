@@ -1,76 +1,39 @@
+import { useParams } from "@tanstack/react-router";
+import { toast } from "sonner";
+
 import { FormUpdateSchema, FormStatusOptions, FormAccessOptions } from "shared";
 
 import { useAppForm } from "~/components/custom-form";
-import { useMutateData } from "~/services/hooks/use-forms";
-import { useQuery_Detail_Forms } from "~/services/hooks/use-forms";
+import { useCollectionsDetail as useCollectionsFormsDetail } from "~/services/collections/forms-collection";
 
 export const useOtherInfosForm = () => {
-  const { data } = useQuery_Detail_Forms();
+  const { data, handleUpdate } = useCollectionsFormsDetail();
+  const [{ ...initValues }] = data;
   const statusOptions = FormStatusOptions;
   const accessOptions = FormAccessOptions;
-  const [
-    {
-      party_uuid,
-      uuid,
-      name,
-      description,
-      status,
-      limit,
-      access,
-      json,
-      ...otherValues
-    },
-  ] = data;
 
-  const {
-    mutateUpdate: { mutateAsync: updateForms, isPending: isPendingUpdate },
-  } = useMutateData();
-
+  let timeout: ReturnType<typeof setTimeout>;
   const form = useAppForm({
-    defaultValues: {
-      name,
-      description,
-      status,
-      limit,
-      access,
-      json: JSON.stringify(json),
-    },
+    defaultValues: initValues,
     validators: {
       onChange: FormUpdateSchema,
     },
     onSubmit: async ({ value }) => {
-      const param = { party_uuid, uuid };
-      const json = { ...value };
-      const data = { json, param };
-      await updateForms(data);
+      handleUpdate(value);
     },
     listeners: {
       onChange: ({ formApi, fieldApi }) => {
-        // console.log(formApi.state.values);
-        // console.log(fields, " fields");
-      },
-      onSubmit: () => {
-        // console.log("submitted ...");
-        // if (isSuccessCreate) {
-        //   console.log({ isSuccessCreate });
-        //   const [{ uuid: form_uuid }] = dataCreate.data;
-        //   router.navigate({
-        //     to: "/dashboard/forms/edit/$form_uuid",
-        //     params: { form_uuid },
-        //   });
-        // }
-        // if (isSuccessUpdate) {
-        //   router.navigate({
-        //     to: ".",
-        //   });
-        // }
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+          handleUpdate(formApi.state.values);
+          toast.success("Details are saved successfully");
+        }, 2000);
       },
     },
   });
 
   return {
     form,
-    isPendingUpdate,
     statusOptions,
     accessOptions,
   };

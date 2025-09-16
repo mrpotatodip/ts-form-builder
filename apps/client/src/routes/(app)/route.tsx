@@ -23,11 +23,12 @@ import {
 
 import { useEnsureQueryData_Detail as useEQD_Detail_Users } from "~/services/hooks/use-users";
 import { useEnsureQueryData_All as useEQD_All_forms } from "~/services/hooks/use-forms";
+import { fetchQuery_Details } from "~/services/hooks/use-ba-users";
 
 export const Route = createFileRoute("/(app)")({
   beforeLoad: async ({ context }) => {
-    const { queryClient, ...allOtherContext } = context;
-    const { authState } = allOtherContext;
+    const { queryClient } = context;
+    const authState = await fetchQuery_Details(queryClient);
 
     // NOT AUTH USER
     if (!authState) return redirect({ to: "/login" });
@@ -38,9 +39,7 @@ export const Route = createFileRoute("/(app)")({
     });
 
     if (!userState.data) {
-      return {
-        ...allOtherContext,
-      };
+      return {};
     }
 
     // PARTY ID AS MAIN PARAM
@@ -53,10 +52,18 @@ export const Route = createFileRoute("/(app)")({
     const { data: formState } = forms;
 
     return {
-      ...allOtherContext,
+      authState: authState,
       userState: userState.data,
       formsState: formState.data,
     };
+
+    // return {
+    //   authState: authState,
+    //   userState: [],
+    //   organizationsState: [],
+    //   forms: [],
+    //   collectionX: null,
+    // };
   },
   component: RouteComponent,
 });

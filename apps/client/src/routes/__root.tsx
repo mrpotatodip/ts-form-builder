@@ -28,11 +28,11 @@ export const Route = createRootRouteWithContext<{
   queryClient: QueryClient;
 }>()({
   beforeLoad: async ({ context }) => {
-    const { queryClient } = context;
-    const authState = await fetchQuery_Details(queryClient);
+    // const { queryClient } = context;
+    // const authState = await fetchQuery_Details(queryClient);
 
     return {
-      authState: authState,
+      authState: [],
       userState: [],
       organizationsState: [],
       forms: [],
@@ -124,13 +124,13 @@ function RootDocument({ children }: { children: React.ReactNode }) {
             // font-family: system-ui, -apple-system, sans-serif;
             // background: #fff;
           }
-          
+
           /* Ensure content is hidden during loading */
           .app-content {
             opacity: 1;
             transition: opacity 0.3s ease;
           }
-          
+
           /* Loading state styles */
           .loading-overlay {
             position: fixed;

@@ -1,4 +1,5 @@
 import { SquareTerminalIcon as BuilderFormIcon } from "lucide-react";
+import { AnimatedTerminalIcon } from "./route-navs-icons";
 import { linkOptions } from "@tanstack/react-router";
 
 export const getSidebarNavs = () =>
@@ -6,7 +7,7 @@ export const getSidebarNavs = () =>
     {
       label: "Forms",
       to: "/dashboard/forms",
-      icon: BuilderFormIcon,
+      icon: AnimatedTerminalIcon,
       isActive: true,
       items: linkOptions([
         {

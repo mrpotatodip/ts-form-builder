@@ -18,6 +18,8 @@ import {
 } from "~/components/ui/sidebar";
 
 import { getSidebarNavs } from "~/components/app/dashboard/forms/route-navs";
+import { AnimateIcon } from "./animate-ui/icons/icon";
+import { Terminal } from "./animate-ui/icons/terminal";
 
 export function NavDashboard() {
   const navs = getSidebarNavs();
@@ -37,8 +39,13 @@ export function NavDashboard() {
           >
             <SidebarMenuItem>
               <CollapsibleTrigger asChild>
-                <SidebarMenuButton tooltip={item.label}>
-                  {item.icon && <item.icon />}
+                <SidebarMenuButton className="group" tooltip={item.label}>
+                  {item.icon && (
+                    <>
+                      <item.icon animate className="group-hover:block hidden" />
+                      <item.icon className="group-hover:hidden block" />
+                    </>
+                  )}
                   <Link to={item.to} className="flex items-center gap-2">
                     <span className="uppercase tracking-wider text-xs">
                       {item.label}

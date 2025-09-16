@@ -3,12 +3,14 @@ import { zValidator } from "@hono/zod-validator";
 
 import { DBNeonConnect, Envs, AuthVariables } from "../../";
 import { FormPublicParamSchema } from "../../schemas-types/tbl-form-public";
+import { createGetFormsResponseMiddleware } from "../middlewares/forms-response-middleware";
 import { detail } from "./select";
 
 export const createRPC = () => {
   const usersApp = new Hono<{ Bindings: Envs; Variables: AuthVariables }>().get(
     "/:uuid",
     zValidator("param", FormPublicParamSchema),
+    createGetFormsResponseMiddleware,
     async (c) => {
       try {
         const db = DBNeonConnect(c.env.DATABASE_URL);
@@ -18,7 +20,7 @@ export const createRPC = () => {
       } catch (error) {
         return c.json({ data: [], error: "Error" }, 200);
       }
-    }
+    },
   );
 
   const app = new Hono().route("/forms-public", usersApp);

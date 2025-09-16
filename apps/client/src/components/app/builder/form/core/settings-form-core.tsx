@@ -7,62 +7,101 @@ import {
 
 import { Button } from "~/components/ui/button";
 import { BuilderFields, BuilderFieldsLogic } from "./schema-core";
-import { useDataStore } from "../core/use-data-store";
 import { useSettingsFormCore } from "./use-settings-form-core";
 
-export const SettingsFormCore = ({ fields }: { fields: BuilderFields[] }) => {
-  const deleteData = useDataStore((state) => state.deleteData);
-  const updateBulkData = useDataStore((state) => state.updateBulkData);
-
+export const SettingsFormCore = ({
+  fields,
+  handleUpdateFields,
+}: {
+  fields: BuilderFields[];
+  handleUpdateFields: (fields: BuilderFields[]) => void;
+}) => {
   const { form } = useSettingsFormCore(fields);
   const [settings, settingsSet] = useState<Record<string, boolean>>({});
+  const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
 
   const onClickSettings = useCallback(
     (id: string) => {
       settingsSet((prev) => ({ ...prev, [id]: !prev[id] }));
     },
-    [settingsSet]
+    [settingsSet],
   );
 
-  const handleDeleteTo = useCallback((id: string) => {
-    deleteData(id);
-  }, []);
+  const handleDeleteTo = useCallback(
+    (id: string) => {
+      const data = fields.filter((field) => field.id !== id);
+      handleUpdateFields(data);
+    },
+    [fields],
+  );
 
   const handleAddOptionTo = useCallback(
     (id: string) => {
-      const data = fields.map((field) => {
-        if (field.id === id)
-          return {
-            ...field,
-            options: [
-              ...field.options!,
-              {
-                label: `Option_${field.options!.length + 1}`,
-                value: `option_${field.options!.length + 1}`,
-              },
-            ],
-          };
-        return field;
-      });
-      updateBulkData(data);
+      const data = fields.map((field) =>
+        field.id === id
+          ? {
+              ...field,
+              options: [
+                ...(field.options ?? []),
+                {
+                  label: `#${(field.options?.length ?? 0) + 1}`,
+                  value: `#${(field.options?.length ?? 0) + 1}`,
+                },
+              ],
+            }
+          : field,
+      );
+      handleUpdateFields(data);
     },
-    [fields]
+    [fields],
   );
 
   const handleHoverTo = useCallback(
     (id: string, isHover: boolean) => {
-      const reset = fields.map((field) => ({ ...field, isHover: false }));
-      const data = reset.map((field) => {
-        if (field.id === id)
-          return {
-            ...field,
-            isHover,
-          };
-        return field;
-      });
-      updateBulkData(data, false);
+      const data = fields.map((field) => ({
+        ...field,
+        isHover: field.id === id ? isHover : false,
+      }));
+      handleUpdateFields(data);
     },
-    [fields]
+    [fields],
+  );
+
+  const handleDragStart = useCallback((e: React.DragEvent, index: number) => {
+    setDraggedIndex(index);
+    e.dataTransfer.effectAllowed = "move";
+  }, []);
+
+  const handleDragOver = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = "move";
+  }, []);
+
+  const handleDragDrop = useCallback(
+    (e: React.DragEvent, dropIndex: number) => {
+      e.preventDefault();
+
+      if (draggedIndex === null || draggedIndex === dropIndex) {
+        setDraggedIndex(null);
+        return;
+      }
+
+      const newFields = [...fields];
+      const draggedField = newFields[draggedIndex];
+
+      // Remove the dragged field
+      newFields.splice(draggedIndex, 1);
+
+      // Insert at the new position
+      const insertIndex = draggedIndex < dropIndex ? dropIndex - 1 : dropIndex;
+      newFields.splice(insertIndex, 0, draggedField);
+
+      // setFields(newFields);
+      // console.log(newFields, " testing ...");
+      handleUpdateFields(newFields);
+      setDraggedIndex(null);
+    },
+    [fields, draggedIndex],
   );
 
   if (!fields.length)
@@ -82,6 +121,7 @@ export const SettingsFormCore = ({ fields }: { fields: BuilderFields[] }) => {
           e.preventDefault();
           form.handleSubmit();
         }}
+        onChange={() => handleUpdateFields(form.state.values.fields)}
       >
         <form.Subscribe selector={(state) => state.values.fields}>
           {(fields) => (
@@ -94,9 +134,17 @@ export const SettingsFormCore = ({ fields }: { fields: BuilderFields[] }) => {
                 return (
                   <div
                     key={field.id}
-                    className="flex flex-col gap-4 bg-muted/60 rounded-xl p-4"
+                    className={`flex flex-col gap-4 bg-muted/60 rounded-xl p-4 transition-all duration-200 hover:bg-muted/90 cursor-grab ${
+                      draggedIndex === index
+                        ? "opacity-50 scale-95"
+                        : "opacity-100 scale-100"
+                    }`}
                     onMouseEnter={() => handleHoverTo(field.id, true)}
                     onMouseLeave={() => handleHoverTo(field.id, false)}
+                    draggable
+                    onDragStart={(e) => handleDragStart(e, index)}
+                    onDragOver={handleDragOver}
+                    onDrop={(e) => handleDragDrop(e, index)}
                   >
                     <div className="flex justify-between">
                       <h2 className="uppercase tracking-wider font-semibold text-sm text-primary">
@@ -138,7 +186,15 @@ export const SettingsFormCore = ({ fields }: { fields: BuilderFields[] }) => {
 
                     {settings[field.id] && (
                       <>
-                        {/* WITH FIELD LOGIC */}
+                        <div className="">
+                          <form.AppField
+                            name={`fields[${index}].description`}
+                            children={(field) => (
+                              <field.TextAreaField label="DESCRIPTION / HELPER TEXT" />
+                            )}
+                          />
+                        </div>
+
                         {isPlaceholder && (
                           <div className="">
                             <form.AppField
@@ -208,7 +264,7 @@ export const SettingsFormCore = ({ fields }: { fields: BuilderFields[] }) => {
                                             )}
                                           />
                                         </div>
-                                      )
+                                      ),
                                     )}
                                   </div>
                                 );

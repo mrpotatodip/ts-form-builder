@@ -5,7 +5,7 @@ export const Route = createFileRoute("/(auth)")({
     const { queryClient, ...allOtherContext } = context;
     const { authState } = allOtherContext;
 
-    if (authState) return redirect({ to: "/dashboard/forms" });
+    if (authState.length) return redirect({ to: "/dashboard/forms" });
   },
   component: RouteComponent,
 });

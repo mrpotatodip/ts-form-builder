@@ -9,5 +9,5 @@ export type BaseStatus = (typeof BaseStatus)[number]["value"];
 export const BaseStatusDefault = BaseStatus[0].value;
 export const BaseStatusEnum = BaseStatus.map((s) => s.value) as [
   BaseStatus,
-  ...BaseStatus[]
+  ...BaseStatus[],
 ];

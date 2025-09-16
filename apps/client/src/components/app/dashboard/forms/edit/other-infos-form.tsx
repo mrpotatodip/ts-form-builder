@@ -1,9 +1,7 @@
 import { useOtherInfosForm } from "./use-other-infos-form";
 
 export const OtherInfosForm = () => {
-  const { form, isPendingUpdate, statusOptions, accessOptions } =
-    useOtherInfosForm();
-  const isSubmitting = isPendingUpdate ? true : false;
+  const { form, statusOptions, accessOptions } = useOtherInfosForm();
 
   return (
     <>
@@ -50,11 +48,11 @@ export const OtherInfosForm = () => {
           )}
         />
 
-        <form.AppForm>
-          <form.SubmitButton className="mt-4" isSubmitting={isSubmitting}>
-            {isSubmitting ? "Saving Infos. ..." : "Save Infos."}
+        {/*<form.AppForm>
+          <form.SubmitButton className="mt-4" isSubmitting={false}>
+            Save Infos.
           </form.SubmitButton>
-        </form.AppForm>
+        </form.AppForm>*/}
       </form>
     </>
   );

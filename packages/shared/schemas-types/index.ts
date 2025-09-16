@@ -14,6 +14,10 @@ export type * from "./tbl-user";
 export * from "./tbl-organization";
 export type * from "./tbl-organization";
 
+// CORE
+export * from "./builder-core";
+export type * from "./builder-core";
+
 // FORM
 export * from "./tbl-form";
 export type * from "./tbl-form";
@@ -49,4 +53,5 @@ export type Envs = {
 export type AuthVariables = {
   user: unknown | null;
   session: unknown | null;
+  party_uuid: string;
 };

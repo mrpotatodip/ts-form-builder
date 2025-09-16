@@ -1,15 +1,16 @@
+import { useParams } from "@tanstack/react-router";
+
 import { PreviewFormCore } from "~/components/app/builder/form/core/preview-form-core";
-import { useQuery_Detail_Forms } from "~/services/hooks/use-forms";
+import { useCollectionsDetail as useCollectionsFormsDetail } from "~/services/collections/forms-collection";
 
 export const Preview = () => {
-  const { data, formDBs } = useQuery_Detail_Forms();
-
-  if (!data.length) return <div>empty!</div>;
+  const { data } = useCollectionsFormsDetail();
   const [{ json }] = data;
+  const fields = json?.fields || [];
 
   return (
     <div className="w-[450px] flex flex-col gap-2">
-      <PreviewFormCore fields={json["fields"]} formDBs={formDBs} />
+      <PreviewFormCore fields={fields} />
     </div>
   );
 };

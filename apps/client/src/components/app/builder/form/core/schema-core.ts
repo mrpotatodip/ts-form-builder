@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import { FormSchema } from "shared";
+import { Description } from "@radix-ui/react-dialog";
 
 export const Fields = [
   {
@@ -123,6 +124,7 @@ export const BuilderFields = z.object({
   id: z.string(),
   type: z.enum(FieldsEnum),
   label: z.string(),
+  description: z.string().optional(),
   name: z.string(),
   required: z.boolean(),
   requiredError: z.string().optional(),
@@ -153,6 +155,7 @@ export const BuilderFieldsDefaults: BuilderFields = {
   id: "",
   type: FieldsDefault,
   label: "",
+  description: "",
   name: "demo",
   required: false,
   requiredError: undefined,
@@ -184,19 +187,19 @@ export const BuilderFieldsFormsDefaults: BuilderFieldsForms = {
 
 // LOGIC
 const placeholderMap: Record<Fields, boolean> = Object.fromEntries(
-  Fields.map((f) => [f.value, f.placeholder])
+  Fields.map((f) => [f.value, f.placeholder]),
 ) as Record<Fields, boolean>;
 
 const minmaxMap: Record<Fields, boolean> = Object.fromEntries(
-  Fields.map((f) => [f.value, f.minmax])
+  Fields.map((f) => [f.value, f.minmax]),
 ) as Record<Fields, boolean>;
 
 const minmaxLengthMap: Record<Fields, boolean> = Object.fromEntries(
-  Fields.map((f) => [f.value, f.minmaxLength])
+  Fields.map((f) => [f.value, f.minmaxLength]),
 ) as Record<Fields, boolean>;
 
 const optionsMap: Record<Fields, boolean> = Object.fromEntries(
-  Fields.map((f) => [f.value, f.options])
+  Fields.map((f) => [f.value, f.options]),
 ) as Record<Fields, boolean>;
 
 export const BuilderFieldsLogic = (type: Fields) => ({
@@ -209,7 +212,7 @@ export const BuilderFieldsLogic = (type: Fields) => ({
 export const BuilderFieldsInitValues = (type: Fields) => {
   const randomString = (
     len: number = 4,
-    chars: string = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+    chars: string = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
   ) => {
     let result = "";
     for (let i = 0; i < len; i++) {

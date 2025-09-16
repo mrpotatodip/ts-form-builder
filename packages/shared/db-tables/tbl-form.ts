@@ -7,7 +7,9 @@ import {
   json,
   integer,
 } from "drizzle-orm/pg-core";
+import { z } from "zod";
 
+import { BuilderFieldsForms } from "../schemas-types/builder-core";
 import { tbl_party } from "./tbl-party";
 
 export const FormStatus = [
@@ -22,7 +24,7 @@ export type FormStatus = (typeof FormStatus)[number]["value"];
 export const FormStatusDefault = FormStatus[0].value;
 export const FormStatusEnum = FormStatus.map((s) => s.value) as [
   FormStatus,
-  ...FormStatus[]
+  ...FormStatus[],
 ];
 
 export const FormAccess = [
@@ -33,7 +35,7 @@ export type FormAccess = (typeof FormAccess)[number]["value"];
 export const FormAccessDefault = FormAccess[0].value;
 export const FormAccessEnum = FormAccess.map((s) => s.value) as [
   FormAccess,
-  ...FormAccess[]
+  ...FormAccess[],
 ];
 
 export const tbl_form = pgTable("tbl_form", {
@@ -44,7 +46,7 @@ export const tbl_form = pgTable("tbl_form", {
     .notNull(),
   name: text("name").default("").notNull(),
   description: text("description").default("").notNull(),
-  json: json("json").notNull(),
+  json: json("json").$type<BuilderFieldsForms>().notNull(),
   status: text("status")
     .$type<FormStatus>()
     .default(FormStatusDefault)

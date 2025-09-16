@@ -8,7 +8,7 @@ import {
 import { queryOptionFactory as baUsersQOF } from "~/services/query-options/ba-users-query-options";
 
 export const fetchQuery_Details = async (
-  queryClient: QueryClient = useQueryClient()
+  queryClient: QueryClient = useQueryClient(),
 ) => {
   const queryOptions = baUsersQOF.details();
   const data = await queryClient.fetchQuery(queryOptions);
@@ -27,7 +27,7 @@ export const useQueryData_All = () => {
 };
 
 export const useEnsureQueryData_All = async (
-  queryClient: QueryClient = useQueryClient()
+  queryClient: QueryClient = useQueryClient(),
 ) => {
   const data = await queryClient.ensureQueryData(baUsersQOF.all());
   return { data };

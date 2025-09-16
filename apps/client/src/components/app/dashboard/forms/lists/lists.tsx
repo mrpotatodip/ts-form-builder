@@ -1,21 +1,22 @@
-import { Link } from "@tanstack/react-router";
-
-import { useQuery_All_Forms } from "~/services/hooks/use-forms";
 import { ListsItem } from "./lists-item";
+import { useCollections as useCollectionsForms } from "~/services/collections/forms-collection";
 
 export const Lists = () => {
-  const { data } = useQuery_All_Forms();
+  const { data, isLoading } = useCollectionsForms();
 
-  if (!data || !data.length) return <div>empty!</div>;
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="flex flex-wrap gap-4">
       {data.map((item) => (
         <ListsItem
-          key={item.id}
+          key={item.uuid}
           id={item.uuid}
           name={item.name}
           description={item.description}
+          status={item.status}
         />
       ))}
     </div>

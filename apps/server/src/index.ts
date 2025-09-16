@@ -13,6 +13,7 @@ const app = new Hono<{
   Variables: {
     user: unknown | null;
     session: unknown | null;
+    party_uuid: unknown | null;
   };
 }>();
 

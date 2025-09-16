@@ -19,17 +19,24 @@ const ItemActiveHover = ({
 
 export const PreviewFormCore = ({
   fields,
-  formDBs,
+  form_uuid,
 }: {
   fields: BuilderFields[];
-  formDBs: BuilderFormDBs[];
+  form_uuid?: string;
 }) => {
   const { form, isPendingCreate, isSuccessCreate } = usePreviewFormCore(
     fields,
-    formDBs
+    form_uuid,
   );
 
-  if (!fields.length) return <></>;
+  if (!fields.length)
+    return (
+      <div>
+        <p className="text-xs uppercase tracking-wider italic text-primary">
+          Nothing to preview yet.
+        </p>
+      </div>
+    );
 
   return (
     <form
@@ -39,6 +46,13 @@ export const PreviewFormCore = ({
       }}
       className="flex flex-col gap-4 bg-muted/60 rounded-xl p-4"
     >
+      {/*<div>
+        <h1 className="text-xl font-semibold tracking-wide">
+          Welcome to the Form Preview
+        </h1>
+        <p className="text-xs">This is a description of the form preview.</p>
+      </div>*/}
+
       {fields.map((item) => {
         switch (item.type) {
           case "checkbox":
@@ -60,7 +74,10 @@ export const PreviewFormCore = ({
                 name={item.id}
                 children={(field) => (
                   <ItemActiveHover isHover={item.isHover}>
-                    <field.SwitchField label={item.label} />
+                    <field.SwitchField
+                      label={item.label}
+                      description={item.description}
+                    />
                   </ItemActiveHover>
                 )}
               />
@@ -72,7 +89,7 @@ export const PreviewFormCore = ({
                 name={item.id}
                 children={(field) => {
                   const options = item.options!.filter(
-                    (option) => !option.value.length
+                    (option) => !option.value.length,
                   );
                   return (
                     <ItemActiveHover isHover={item.isHover}>

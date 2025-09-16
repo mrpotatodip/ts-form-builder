@@ -9,37 +9,31 @@ const { FormStatus, FormStatusEnum, FormAccess, FormAccessEnum } = DBTableVars;
 export const FormStatusOptions = FormStatus.map((item) => item);
 export const FormAccessOptions = FormAccess.map((item) => item);
 
-export const FormSchema = createSelectSchema(tbl_form).extend({
-  createdAt: z.string(),
-  status: z.enum(FormStatusEnum),
-  access: z.enum(FormAccessEnum),
-});
+export const FormSchema = createSelectSchema(tbl_form)
+  .omit({
+    id: true,
+  })
+  .extend({
+    createdAt: z.string(),
+    status: z.enum(FormStatusEnum),
+    access: z.enum(FormAccessEnum),
+    // json: z.object({}).catchall(z.any()),
+  });
 
-export const FormCreateSchema = FormSchema.omit({
-  id: true,
-  uuid: true,
-  createdAt: true,
-}).extend({
+export const FormCreateSchema = FormSchema.extend({
   name: z.string().min(1, "This field is required."),
   description: z.string().min(1, "This field is required."),
   status: z.enum(FormStatusEnum),
   limit: z.number("This field must be a number."),
   access: z.enum(FormAccessEnum),
-  json: z.string(),
 });
 
-export const FormUpdateSchema = FormSchema.omit({
-  id: true,
-  uuid: true,
-  party_uuid: true,
-  createdAt: true,
-}).extend({
+export const FormUpdateSchema = FormSchema.extend({
   name: z.string().min(1, "This field is required."),
   description: z.string().min(1, "This field is required."),
   status: z.enum(FormStatusEnum),
   limit: z.number("This field must be a number."),
   access: z.enum(FormAccessEnum),
-  json: z.string(),
 });
 
 export const FormListParamSchema = FormSchema.pick({
@@ -49,10 +43,8 @@ export const FormListParamSchema = FormSchema.pick({
 });
 
 export const FormDetailParamSchema = FormSchema.pick({
-  party_uuid: true,
   uuid: true,
 }).extend({
-  party_uuid: z.string(),
   uuid: z.string(),
 });
 
@@ -74,7 +66,7 @@ export type FormQuery = z.infer<typeof FormQuerySchema>;
 export const FormInitValues = (party_uuid: string): FormCreate => {
   const randomString = (
     len: number = 4,
-    chars: string = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+    chars: string = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
   ) => {
     let result = "";
     for (let i = 0; i < len; i++) {
@@ -86,12 +78,14 @@ export const FormInitValues = (party_uuid: string): FormCreate => {
   const identifier = `FORM-${randomString()}`;
 
   return {
+    uuid: crypto.randomUUID(),
     party_uuid,
     name: identifier,
     description: identifier,
     status: "draft",
     limit: 10,
     access: "0",
-    json: JSON.stringify({ fields: [] }),
+    json: { fields: [] },
+    createdAt: new Date().toLocaleDateString(),
   };
 };

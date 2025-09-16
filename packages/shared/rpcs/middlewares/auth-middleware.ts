@@ -16,7 +16,6 @@ export const createAuthMiddleware = () => {
 
       return next();
     } catch (error) {
-      console.error("Auth middleware error:", error);
       c.set("user", null);
       c.set("session", null);
       return next();

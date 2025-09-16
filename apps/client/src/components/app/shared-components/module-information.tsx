@@ -14,10 +14,10 @@ export const ModuleInformation = ({
           <small>{mode}</small>
         </p>
       )}
-      <h1 className="uppercase tracking-widest text-lg font-semibold text-primary">
+      <h1 className="tracking-wider text-xl font-semibold text-primary">
         {name}
       </h1>
-      <p className="uppercase tracking-widest text-xs">{description}</p>
+      <p className="tracking-wider text-xs">{description}</p>
     </div>
   );
 };

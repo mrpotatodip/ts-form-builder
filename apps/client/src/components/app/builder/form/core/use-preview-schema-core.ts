@@ -10,7 +10,7 @@ export const usePreviewSchemaCore = (fields: BuilderFields[]) => {
 
     switch (field.type) {
       case "checkbox":
-        let boolType = z.boolean();
+        let boolType = z.coerce.boolean();
         zodType = boolType;
         break;
       case "number":
@@ -26,7 +26,7 @@ export const usePreviewSchemaCore = (fields: BuilderFields[]) => {
         zodType = numType;
         break;
       default:
-        let strType = z.string();
+        let strType = z.coerce.string();
         let isClean =
           isNaN(Number(field.minLength)) ||
           (field.minLength !== undefined &&

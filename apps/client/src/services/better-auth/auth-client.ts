@@ -27,7 +27,7 @@ export const authSigninWithGithub = async () => {
       onError: (error) => {
         console.error(error);
       },
-    }
+    },
   );
 };
 
@@ -41,7 +41,7 @@ export const authSigninWithGoogle = async () => {
       onError: (error) => {
         console.error(error);
       },
-    }
+    },
   );
 };
 

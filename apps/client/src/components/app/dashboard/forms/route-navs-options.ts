@@ -21,14 +21,14 @@ export type RouteListsStatusOptions =
   (typeof QueryArray.lists.status)[number]["value"];
 export const [{ value: RouteListsStatusDefault }] = QueryArray.lists.status;
 export const RouteListsStatusEnum = QueryArray.lists.status.map(
-  (s) => s.value
+  (s) => s.value,
 ) as [RouteListsStatusOptions];
 
 export type RouteListsModalOptions =
   (typeof QueryArray.lists.modal)[number]["value"];
 export const [{ value: RouteListsModalDefault }] = QueryArray.lists.modal;
 export const RouteListsModalEnum = QueryArray.lists.modal.map(
-  (s) => s.value
+  (s) => s.value,
 ) as [RouteListsModalOptions];
 
 export const RouteListsQuerySchema = z.object({

@@ -23,7 +23,7 @@ export const useQuery_All = (param: FormListParam, query: FormQuery = {}) => {
 
 export const useQueryData_All = (
   param: FormListParam,
-  query: FormQuery = {}
+  query: FormQuery = {},
 ) => {
   const { result } = useQuery_All(param, query);
   return { result };
@@ -32,7 +32,7 @@ export const useQueryData_All = (
 export const useEnsureQueryData_All = async (
   queryClient: QueryClient = useQueryClient(),
   param: FormListParam,
-  query: FormQuery = {}
+  query: FormQuery = {},
 ) => {
   const queryOptions = formsQOF.all(param, query);
   const data = await queryClient.ensureQueryData(queryOptions);
@@ -48,7 +48,7 @@ export const useQuery_Detail = (param: FormDetailParam) => {
 
 export const useQueryData_Detail = (
   param: FormDetailParam,
-  query: FormQuery = {}
+  query: FormQuery = {},
 ) => {
   const { result } = useQuery_Detail(param);
   return { result };
@@ -56,7 +56,7 @@ export const useQueryData_Detail = (
 
 export const useEnsureQueryData_Detail = async (
   queryClient: QueryClient = useQueryClient(),
-  param: FormDetailParam
+  param: FormDetailParam,
 ) => {
   const queryOptions = formsQOF.detail(param);
   const { data } = await queryClient.ensureQueryData(queryOptions);
@@ -66,7 +66,7 @@ export const useEnsureQueryData_Detail = async (
 // QUERIES
 export const useQuery_All_Forms = () => {
   const { userState } = useRouteContext({ from: "/(app)" });
-  const [{ party_uuid }] = userState;
+  const [{ party_uuid }] = userState!;
   const param: FormListParam = { party_uuid };
   const query: FormQuery = {};
   const { result } = useQuery_All(param, query);
@@ -78,7 +78,7 @@ export const useQuery_Detail_Forms = () => {
   const { form_uuid: uuid } = useParams({
     from: "/(app)/dashboard/forms/$form_uuid",
   });
-  const [{ party_uuid }] = userState;
+  const [{ party_uuid }] = userState!;
   const param = { party_uuid, uuid };
   const { result } = useQuery_Detail(param);
   const initializeData = useDataStoreCore((state) => state.initializeData);
@@ -98,7 +98,6 @@ export const useQuery_Detail_Forms = () => {
 export const useMutateData = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
-  const { userState } = useRouteContext({ from: "/(app)" });
   const cleanUpData = useDataStoreCore((state) => state.cleanUpData);
 
   const mutateCreate = useMutation({

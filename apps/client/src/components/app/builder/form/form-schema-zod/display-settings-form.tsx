@@ -1,9 +1,12 @@
-import { useDataStore } from "../core/use-data-store";
+import { BuilderFields } from "shared";
+
 import { SettingsFormCore } from "../core/settings-form-core";
 
-export const DisplaySettingsForm = () => {
-  const fields = useDataStore((state) => state.fields);
-
+export const DisplaySettingsForm = ({
+  fields,
+}: {
+  fields: BuilderFields[];
+}) => {
   if (!fields.length)
     return (
       <div>

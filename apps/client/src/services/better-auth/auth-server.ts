@@ -37,7 +37,7 @@ export const authServerSession = createServerFn().handler<UserAndSession>(
     // const { session, user } = data;
 
     return data;
-  }
+  },
 );
 
 // export const authServerSignOut = createServerFn().handler<User>(async () => {

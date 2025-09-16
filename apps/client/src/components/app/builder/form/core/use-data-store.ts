@@ -1,14 +1,14 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
-import { BuilderFields, BuilderFormDBs } from "./schema-core";
+import { BuilderFields, BuilderFormDBs } from "shared";
 
 type BearStore = {
   fields: BuilderFields[];
   formDBs: BuilderFormDBs[];
   initializeData: (
     fields: BuilderFields[],
-    formDBs: BuilderFormDBs[] | undefined
+    formDBs: BuilderFormDBs[] | undefined,
   ) => void;
   insertData: (item: BuilderFields) => void;
   updateBulkData: (fields: BuilderFields[], isDirty?: boolean) => void;
@@ -43,6 +43,6 @@ export const useDataStore = create<BearStore>()(
     {
       name: "betterforms", // name of the item in the storage (must be unique)
       storage: createJSONStorage(() => localStorage), // (optional) by default, 'localStorage' is used
-    }
-  )
+    },
+  ),
 );

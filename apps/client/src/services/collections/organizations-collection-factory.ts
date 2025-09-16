@@ -13,7 +13,7 @@ export const collectionFn = (
 ) =>
   createCollection(
     queryCollectionOptions({
-      queryClient,
+      queryClient: queryClient(),
       queryKey: organizationsQKF.all(param),
       queryFn: async () => {
         const response = await organizationsRPC.all(param, query);

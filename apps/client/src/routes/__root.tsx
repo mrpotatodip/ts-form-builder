@@ -34,9 +34,6 @@ export const Route = createRootRouteWithContext<{
     return {
       authState: [],
       userState: [],
-      organizationsState: [],
-      forms: [],
-      collectionX: null,
     };
   },
   head: () => ({

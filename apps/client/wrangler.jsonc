@@ -2,7 +2,7 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "betterform-client",
   "main": ".output/server/index.mjs",
-  "compatibility_date": "2025-07-01",
+  "compatibility_date": "2025-09-15",
   "compatibility_flags": ["nodejs_compat"],
   "assets": {
     "directory": ".output/public",

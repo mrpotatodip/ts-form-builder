@@ -15,23 +15,5 @@ export const FormResponseCreateSchema = FormResponseSchema.omit({
   createdAt: true,
 });
 
-export const FormResponseListParamSchema = FormResponseSchema.pick({
-  form_uuid: true,
-}).extend({
-  form_uuid: z.string(),
-});
-
-export const FormResponseDetailParamSchema = FormResponseSchema.pick({
-  form_uuid: true,
-  uuid: true,
-}).extend({
-  form_uuid: z.string(),
-  uuid: z.string(),
-});
-
 export type FormResponse = z.infer<typeof FormResponseSchema>;
 export type FormResponseCreate = z.infer<typeof FormResponseCreateSchema>;
-export type FormResponseListParam = z.infer<typeof FormResponseListParamSchema>;
-export type FormResponseDetailParam = z.infer<
-  typeof FormResponseDetailParamSchema
->;

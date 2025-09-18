@@ -1,4 +1,4 @@
-import { createSelectSchema } from "drizzle-zod";
+import { createSelectSchema, createInsertSchema } from "drizzle-zod";
 import { formatError, z } from "zod";
 
 import { DBTables, DBTableVars } from "../db-tables";
@@ -14,26 +14,37 @@ export const FormSchema = createSelectSchema(tbl_form)
     id: true,
   })
   .extend({
-    createdAt: z.string(),
+    uuid: z.string(),
+    name: z.string(),
+    description: z.string(),
+    limit: z.number(),
     status: z.enum(FormStatusEnum),
     access: z.enum(FormAccessEnum),
-    // json: z.object({}).catchall(z.any()),
+    createdAt: z.string(),
   });
 
-export const FormCreateSchema = FormSchema.extend({
-  name: z.string().min(1, "This field is required."),
-  description: z.string().min(1, "This field is required."),
-  status: z.enum(FormStatusEnum),
-  limit: z.number("This field must be a number."),
-  access: z.enum(FormAccessEnum),
-});
+export const FormCreateSchema = createInsertSchema(tbl_form)
+  .omit({
+    id: true,
+  })
+  .extend({
+    uuid: z.string(),
+    name: z.string().min(1, "This field is required."),
+    description: z.string().min(1, "This field is required."),
+    limit: z.number("This field must be a number."),
+    status: z.enum(FormStatusEnum),
+    access: z.enum(FormAccessEnum),
+    createdAt: z.string(),
+  });
 
-export const FormUpdateSchema = FormSchema.extend({
+export const FormUpdateSchema = FormCreateSchema.extend({
+  uuid: z.string(),
   name: z.string().min(1, "This field is required."),
   description: z.string().min(1, "This field is required."),
-  status: z.enum(FormStatusEnum),
   limit: z.number("This field must be a number."),
+  status: z.enum(FormStatusEnum),
   access: z.enum(FormAccessEnum),
+  createdAt: z.string(),
 });
 
 export const FormListParamSchema = FormSchema.pick({
@@ -86,6 +97,6 @@ export const FormInitValues = (party_uuid: string): FormCreate => {
     limit: 10,
     access: "0",
     json: { fields: [] },
-    createdAt: new Date().toLocaleDateString(),
+    createdAt: new Date().toDateString(),
   };
 };

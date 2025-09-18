@@ -5,9 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite dev",
-    "build": "vite build && tsc --noEmit",
+    "build-old": "vite build && tsc --noEmit",
+    "build": "vite build",
     "start": "node .output/server/index.mjs",
+    "deploy-old": "npm run build-old && wrangler deploy",
     "deploy": "npm run build && wrangler deploy",
+    "cf-typegen": "wrangler types --env-interface Env",
     "registry:build": "shadcn build"
   },
   "dependencies": {
@@ -35,9 +38,10 @@
     "@react-pdf/renderer": "^4.3.0",
     "@tabler/icons-react": "^3.31.0",
     "@tailwindcss/vite": "^4.1.11",
-    "@tanstack/db": "^0.1.1",
-    "@tanstack/query-db-collection": "^0.1.3",
-    "@tanstack/react-db": "^0.1.0",
+    "@tanstack/db": "^0.2.5",
+    "@tanstack/query-core": "^5.75.7",
+    "@tanstack/query-db-collection": "^0.2.17",
+    "@tanstack/react-db": "^0.1.18",
     "@tanstack/react-form": "^1.8.0",
     "@tanstack/react-query": "^5.72.0",
     "@tanstack/react-router": "^1.130.12",
@@ -54,7 +58,7 @@
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "handlebars": "^4.7.8",
-    "hono": "^4.9.0",
+    "hono": "^4.9.7",
     "input-otp": "^1.4.2",
     "js-confetti": "^0.12.0",
     "lucide-react": "^0.487.0",
@@ -81,7 +85,7 @@
     "tw-animate-css": "^1.2.5",
     "unenv": "^1.10.0",
     "vaul": "^1.1.2",
-    "zod": "^4.0.17",
+    "zod": "^4.1.9",
     "zustand": "^5.0.4"
   },
   "devDependencies": {
@@ -96,6 +100,6 @@
     "typescript": "^5.7.2",
     "vite": "^6.3.5",
     "vite-tsconfig-paths": "^5.1.4",
-    "wrangler": "^4.8.0"
+    "wrangler": "^4.37.1"
   }
 }

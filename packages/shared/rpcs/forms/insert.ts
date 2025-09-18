@@ -1,17 +1,18 @@
-import { eq } from "drizzle-orm";
-
 import type { DBNeonConnect } from "../..";
 
 import { tbl_form } from "../../db-tables/tbl-form";
-import type { FormListParam, FormCreate } from "../../schemas-types/tbl-form";
+import type { FormCreate } from "../../schemas-types/tbl-form";
 
 export const create = async (
   db: DBNeonConnect,
-  param: FormListParam,
-  json: FormCreate
+  party_uuid: string,
+  json: FormCreate,
 ) => {
+  const { ...payload } = json;
+  const values = { ...payload, party_uuid };
   const transactions = await db.transaction(async (tx) => {
-    const form = await tx.insert(tbl_form).values(json).returning();
+    const insertValues = { ...values, createdAt: new Date(values.createdAt) };
+    const form = await tx.insert(tbl_form).values(insertValues).returning();
     return {
       form,
     };

@@ -7,6 +7,7 @@ import organizations from "./organizations";
 import forms from "./forms";
 import forms_response from "./forms-response";
 import forms_public from "./forms-public";
+import forms_response_public from "./forms-response-public";
 
 const app = new Hono<{
   Bindings: CloudflareBindings;
@@ -24,5 +25,6 @@ app.route("/", organizations);
 app.route("/", forms);
 app.route("/", forms_response);
 app.route("/", forms_public);
+app.route("/", forms_response_public);
 
 export default app;

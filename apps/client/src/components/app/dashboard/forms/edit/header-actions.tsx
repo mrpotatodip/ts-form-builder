@@ -1,12 +1,20 @@
 import { Link } from "@tanstack/react-router";
 
-import { useCollectionsDetail as useCollectionsFormsDetail } from "~/services/collections/forms-collection";
+import { Badge } from "@/components/ui/badge";
 
-export const HeaderActions = () => {
-  const { form_uuid, data } = useCollectionsFormsDetail();
-  const [{ status, access }] = data;
+import { Form, FormResponse } from "shared";
+
+export const HeaderActions = ({
+  data,
+  responses,
+}: {
+  data: Form[];
+  responses: FormResponse[];
+}) => {
+  const [{ uuid: form_uuid, status, access, limit }] = data;
   const isPublished = status === "published" || false;
   const isPublic = access === "1" || false;
+  const responsesCount = responses.length;
 
   return (
     <div className="flex items-center gap-4 pr-10">
@@ -14,8 +22,21 @@ export const HeaderActions = () => {
         to="/dashboard/forms"
         className="text-xs text-primary uppercase tracking-widest px-2 py-1 hover:text-primary/80 hover:underline hover:underline-offset-4"
       >
-        Back
+        Dashboard
       </Link>
+
+      <div className="flex items-center group">
+        <Link
+          to="/dashboard/forms/$form_uuid/responses"
+          params={{ form_uuid }}
+          className="text-xs text-primary uppercase tracking-widest px-2 py-1 group-hover:text-primary/80 group-hover:underline group-hover:underline-offset-4"
+        >
+          Responses
+        </Link>
+        <Badge className="" variant="default">
+          {responsesCount}/{limit}
+        </Badge>
+      </div>
 
       <Link
         to="/dashboard/forms/$form_uuid/preview"

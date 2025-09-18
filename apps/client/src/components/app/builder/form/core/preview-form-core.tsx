@@ -20,13 +20,16 @@ const ItemActiveHover = ({
 export const PreviewFormCore = ({
   fields,
   form_uuid,
+  party_uuid,
 }: {
   fields: BuilderFields[];
   form_uuid?: string;
+  party_uuid?: string;
 }) => {
   const { form, isPendingCreate, isSuccessCreate } = usePreviewFormCore(
     fields,
     form_uuid,
+    party_uuid,
   );
 
   if (!fields.length)

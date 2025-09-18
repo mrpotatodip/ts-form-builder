@@ -22,7 +22,6 @@ import {
 } from "@/components/ui/sidebar";
 
 import { useEnsureQueryData_Detail as useEQD_Detail_Users } from "~/services/hooks/use-users";
-import { useEnsureQueryData_All as useEQD_All_forms } from "~/services/hooks/use-forms";
 import { fetchQuery_Details } from "~/services/hooks/use-ba-users";
 
 export const Route = createFileRoute("/(app)")({
@@ -42,19 +41,9 @@ export const Route = createFileRoute("/(app)")({
       return {};
     }
 
-    // PARTY ID AS MAIN PARAM
-    const [{ party_uuid }] = userState.data;
-
-    const [forms] = await Promise.all([
-      useEQD_All_forms(queryClient, { party_uuid }),
-    ]);
-
-    const { data: formState } = forms;
-
     return {
       authState: authState,
       userState: userState.data,
-      formsState: formState.data,
     };
 
     // return {
@@ -72,6 +61,7 @@ function RouteComponent() {
   return (
     <SidebarProvider>
       <AppSidebarDashboard />
+
       <Outlet />
     </SidebarProvider>
   );

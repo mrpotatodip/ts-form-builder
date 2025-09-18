@@ -11,7 +11,6 @@ import {
 
 import type { FormPublicParam } from "shared";
 import { queryOptionFactory as formsQOF } from "~/services/query-options/forms-public-query-options";
-import { useDataStore as useDataStoreCore } from "~/components/app/builder/form/core/use-data-store";
 
 // DETAIL
 export const useQuery_Public = (param: FormPublicParam) => {
@@ -30,8 +29,10 @@ export const useEnsureQueryData_Public = async (
   param: FormPublicParam,
 ) => {
   const queryOptions = formsQOF.detail(param);
-  const { data } = await queryClient.ensureQueryData(queryOptions);
-  return { data };
+  const { data: result } = await queryClient.ensureQueryData(queryOptions);
+  // console.log(result, " result ---> ");
+  // const { result } = useQuery_Public(param);
+  return { result: [] };
 };
 
 export const useQuery_Public_Forms = () => {
@@ -44,5 +45,5 @@ export const useQuery_Public_Forms = () => {
   } = useQuery_Public(param);
   const formDBs = data;
 
-  return { form_uuid, data, formDBs };
+  return { data, formDBs };
 };

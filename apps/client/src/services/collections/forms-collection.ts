@@ -11,35 +11,31 @@ import {
 import { queryCollectionOptions } from "@tanstack/query-db-collection";
 import { useParams, useSearch } from "@tanstack/react-router";
 
-import {
-  FormSchema,
-  FormInitValues,
-  Form,
-  FormCreate,
-  FormUpdate,
-  BuilderFields,
-} from "shared";
-import { queryClient } from "~/queryClient";
+import { FormSchema, FormCreate, FormUpdate, BuilderFields } from "shared";
+import { QueryClient } from "@tanstack/query-core";
 import { rpcs as formsRPCs } from "~/services/rpcs/forms";
+
+const queryClient = new QueryClient();
 
 export const collections = createCollection(
   queryCollectionOptions({
+    id: "forms",
+    // refetchInterval: 3000,
     queryClient,
     queryKey: ["forms"],
-    queryFn: async () => {
-      const response = await formsRPCs.listDB();
-      const data = response.data.map(({ id, ...item }) => item);
-      return data ?? [];
-    },
     schema: FormSchema,
     getKey: (item) => item.uuid,
+    queryFn: async () => {
+      const { data } = await formsRPCs.list();
+      return data;
+    },
     onInsert: async ({ transaction }) => {
       const { modified } = transaction.mutations[0];
-      await formsRPCs.createDB({ json: modified });
+      await formsRPCs.create({ json: modified });
     },
     onUpdate: async ({ transaction }) => {
       const { original, modified } = transaction.mutations[0];
-      await formsRPCs.updateDB({
+      await formsRPCs.update({
         param: { uuid: original.uuid },
         json: modified,
       });
@@ -48,10 +44,8 @@ export const collections = createCollection(
 );
 
 export const useCollectionsLiveQuery = ({
-  status = undefined,
   form_uuid = undefined,
 }: {
-  status?: string;
   form_uuid?: string;
 }) => {
   const detail = useLiveQuery((q) =>
@@ -76,20 +70,13 @@ export const useCollectionsLiveQuery = ({
       .orderBy(({ item }) => item.createdAt, "desc"),
   );
 
-  const dataset = useMemo(() => {
-    if (status === "draft") return draft;
-    if (status === "published") return published;
-    return all;
-  }, [status, all, draft, published]);
-
   const handleCreate = (payload: FormCreate) => {
     collections.insert(payload);
   };
 
   const handleUpdate = (payload: FormUpdate) => {
-    collections.update(form_uuid, (draft) => {
+    collections.update(form_uuid, (draft: FormUpdate) => {
       Object.assign(draft, payload);
-      // draft.json = payload.json;
     });
   };
 
@@ -100,7 +87,6 @@ export const useCollectionsLiveQuery = ({
   };
 
   return {
-    dataset,
     detail,
     all,
     draft,
@@ -113,9 +99,7 @@ export const useCollectionsLiveQuery = ({
 
 export const useCollections = () => {
   const { status } = useSearch({ from: "/(app)/dashboard/forms/" });
-  const { all, draft, published, handleCreate } = useCollectionsLiveQuery({
-    status,
-  });
+  const { all, draft, published, handleCreate } = useCollectionsLiveQuery({});
 
   const dataset = useMemo(() => {
     if (status === "draft") return draft;
@@ -123,7 +107,7 @@ export const useCollections = () => {
     return all;
   }, [status, all, draft, published]);
 
-  const { data, isError, isLoading, isReady, isIdle, isCleanedUp } = dataset;
+  const { data, isLoading } = dataset;
 
   return {
     data,
@@ -136,6 +120,7 @@ export const useCollectionsDetail = () => {
   const { form_uuid } = useParams({
     from: "/(app)/dashboard/forms/$form_uuid",
   });
+
   const { detail, handleUpdate, handleUpdateFields } = useCollectionsLiveQuery({
     form_uuid,
   });
@@ -144,7 +129,7 @@ export const useCollectionsDetail = () => {
     return detail;
   }, [form_uuid, detail]);
 
-  const { data, isError, isLoading, isReady, isIdle, isCleanedUp } = dataset;
+  const { data, isLoading } = dataset;
 
   return {
     form_uuid,

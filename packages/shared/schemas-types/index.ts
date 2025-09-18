@@ -27,6 +27,8 @@ export type * from "./tbl-form-response";
 export type * from "../db-tables/tbl-form";
 export * from "./tbl-form-public";
 export type * from "./tbl-form-public";
+export * from "./tbl-form-response-public";
+export type * from "./tbl-form-response-public";
 
 // MISC
 export * from "./misc";

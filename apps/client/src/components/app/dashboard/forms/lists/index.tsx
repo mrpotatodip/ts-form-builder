@@ -7,8 +7,6 @@ export const Index = () => {
   return (
     <DataSuspense>
       <Main />
-
-      {/* modals */}
       <CreateFormModal />
     </DataSuspense>
   );

@@ -10,7 +10,7 @@ export const createRPC = () => {
   const usersApp = new Hono<{ Bindings: Envs; Variables: AuthVariables }>().get(
     "/:uuid",
     zValidator("param", FormPublicParamSchema),
-    createGetFormsResponseMiddleware,
+    // createGetFormsResponseMiddleware,
     async (c) => {
       try {
         const db = DBNeonConnect(c.env.DATABASE_URL);
@@ -23,7 +23,7 @@ export const createRPC = () => {
     },
   );
 
-  const app = new Hono().route("/forms-public", usersApp);
+  const app = new Hono().route("/public", usersApp);
 
   return app;
 };

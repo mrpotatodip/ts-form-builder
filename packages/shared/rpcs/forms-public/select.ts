@@ -9,7 +9,6 @@ export const detail = async (db: DBNeonConnect, param: FormPublicParam) => {
   const { uuid } = param;
 
   let conditions: SQL[] = [];
-  conditions.push(eq(tbl_form.status, "published"));
   conditions.push(eq(tbl_form.uuid, uuid));
 
   const data = await db

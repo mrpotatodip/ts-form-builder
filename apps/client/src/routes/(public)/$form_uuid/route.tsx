@@ -10,6 +10,7 @@ export const Route = createFileRoute("/(public)/$form_uuid")({
     const param = { uuid };
     await Promise.all([useEQD_Public_forms(queryClient, param)]);
   },
+  // errorComponent: ({ error }) => <div>Error {JSON.stringify(error)}</div>,
 });
 
 function RouteComponent() {

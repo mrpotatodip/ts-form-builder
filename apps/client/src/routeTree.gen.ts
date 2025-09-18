@@ -27,6 +27,7 @@ import { Route as demoPlaygroundQueryIndexRouteImport } from './routes/(demo)/pl
 import { Route as demoPlaygroundFormsIndexRouteImport } from './routes/(demo)/playground/forms/index'
 import { Route as appDashboardFormsIndexRouteImport } from './routes/(app)/dashboard/forms/index'
 import { Route as appDashboardFormsForm_uuidRouteRouteImport } from './routes/(app)/dashboard/forms/$form_uuid/route'
+import { Route as appDashboardFormsForm_uuidResponsesIndexRouteImport } from './routes/(app)/dashboard/forms/$form_uuid/responses/index'
 import { Route as appDashboardFormsForm_uuidPreviewIndexRouteImport } from './routes/(app)/dashboard/forms/$form_uuid/preview/index'
 import { Route as appDashboardFormsForm_uuidEditIndexRouteImport } from './routes/(app)/dashboard/forms/$form_uuid/edit/index'
 import { ServerRoute as ApiUsersServerRouteImport } from './routes/api/users'
@@ -116,6 +117,12 @@ const appDashboardFormsForm_uuidRouteRoute =
     path: '/$form_uuid',
     getParentRoute: () => appDashboardFormsRouteRoute,
   } as any)
+const appDashboardFormsForm_uuidResponsesIndexRoute =
+  appDashboardFormsForm_uuidResponsesIndexRouteImport.update({
+    id: '/responses/',
+    path: '/responses/',
+    getParentRoute: () => appDashboardFormsForm_uuidRouteRoute,
+  } as any)
 const appDashboardFormsForm_uuidPreviewIndexRoute =
   appDashboardFormsForm_uuidPreviewIndexRouteImport.update({
     id: '/preview/',
@@ -155,6 +162,7 @@ export interface FileRoutesByFullPath {
   '/playground/query/': typeof demoPlaygroundQueryIndexRoute
   '/dashboard/forms/$form_uuid/edit': typeof appDashboardFormsForm_uuidEditIndexRoute
   '/dashboard/forms/$form_uuid/preview': typeof appDashboardFormsForm_uuidPreviewIndexRoute
+  '/dashboard/forms/$form_uuid/responses': typeof appDashboardFormsForm_uuidResponsesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof demoRouteRouteWithChildren
@@ -168,6 +176,7 @@ export interface FileRoutesByTo {
   '/playground/query': typeof demoPlaygroundQueryIndexRoute
   '/dashboard/forms/$form_uuid/edit': typeof appDashboardFormsForm_uuidEditIndexRoute
   '/dashboard/forms/$form_uuid/preview': typeof appDashboardFormsForm_uuidPreviewIndexRoute
+  '/dashboard/forms/$form_uuid/responses': typeof appDashboardFormsForm_uuidResponsesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -189,6 +198,7 @@ export interface FileRoutesById {
   '/(demo)/playground/query/': typeof demoPlaygroundQueryIndexRoute
   '/(app)/dashboard/forms/$form_uuid/edit/': typeof appDashboardFormsForm_uuidEditIndexRoute
   '/(app)/dashboard/forms/$form_uuid/preview/': typeof appDashboardFormsForm_uuidPreviewIndexRoute
+  '/(app)/dashboard/forms/$form_uuid/responses/': typeof appDashboardFormsForm_uuidResponsesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -208,6 +218,7 @@ export interface FileRouteTypes {
     | '/playground/query/'
     | '/dashboard/forms/$form_uuid/edit'
     | '/dashboard/forms/$form_uuid/preview'
+    | '/dashboard/forms/$form_uuid/responses'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -221,6 +232,7 @@ export interface FileRouteTypes {
     | '/playground/query'
     | '/dashboard/forms/$form_uuid/edit'
     | '/dashboard/forms/$form_uuid/preview'
+    | '/dashboard/forms/$form_uuid/responses'
   id:
     | '__root__'
     | '/'
@@ -241,6 +253,7 @@ export interface FileRouteTypes {
     | '/(demo)/playground/query/'
     | '/(app)/dashboard/forms/$form_uuid/edit/'
     | '/(app)/dashboard/forms/$form_uuid/preview/'
+    | '/(app)/dashboard/forms/$form_uuid/responses/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -389,6 +402,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof appDashboardFormsForm_uuidRouteRouteImport
       parentRoute: typeof appDashboardFormsRouteRoute
     }
+    '/(app)/dashboard/forms/$form_uuid/responses/': {
+      id: '/(app)/dashboard/forms/$form_uuid/responses/'
+      path: '/responses'
+      fullPath: '/dashboard/forms/$form_uuid/responses'
+      preLoaderRoute: typeof appDashboardFormsForm_uuidResponsesIndexRouteImport
+      parentRoute: typeof appDashboardFormsForm_uuidRouteRoute
+    }
     '/(app)/dashboard/forms/$form_uuid/preview/': {
       id: '/(app)/dashboard/forms/$form_uuid/preview/'
       path: '/preview'
@@ -427,6 +447,7 @@ declare module '@tanstack/react-start/server' {
 interface appDashboardFormsForm_uuidRouteRouteChildren {
   appDashboardFormsForm_uuidEditIndexRoute: typeof appDashboardFormsForm_uuidEditIndexRoute
   appDashboardFormsForm_uuidPreviewIndexRoute: typeof appDashboardFormsForm_uuidPreviewIndexRoute
+  appDashboardFormsForm_uuidResponsesIndexRoute: typeof appDashboardFormsForm_uuidResponsesIndexRoute
 }
 
 const appDashboardFormsForm_uuidRouteRouteChildren: appDashboardFormsForm_uuidRouteRouteChildren =
@@ -435,6 +456,8 @@ const appDashboardFormsForm_uuidRouteRouteChildren: appDashboardFormsForm_uuidRo
       appDashboardFormsForm_uuidEditIndexRoute,
     appDashboardFormsForm_uuidPreviewIndexRoute:
       appDashboardFormsForm_uuidPreviewIndexRoute,
+    appDashboardFormsForm_uuidResponsesIndexRoute:
+      appDashboardFormsForm_uuidResponsesIndexRoute,
   }
 
 const appDashboardFormsForm_uuidRouteRouteWithChildren =

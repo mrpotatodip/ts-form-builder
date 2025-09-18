@@ -8,11 +8,11 @@
   "dependencies": {
     "better-auth": "^1.3.4",
     "drizzle-orm": "^0.44.2",
-    "hono": "^4.9.0",
+    "hono": "^4.9.7",
     "shared": "workspace:*",
     "zod": "^3.25.67"
   },
   "devDependencies": {
-    "wrangler": "^4.4.0"
+    "wrangler": "^4.37.1"
   }
 }
